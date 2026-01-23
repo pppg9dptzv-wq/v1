@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrickMap</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="profilepicture.jpeg" type="image/jpeg"></head>
+<body>
+    <div class="left-panel">
+        <h2>Search your tricks</h2>
+        <button id="help-btn">What is this?</button>
+        <input type="text" id="search" placeholder="click and search">
+        <ul id="item-list"></ul>
+        <div class="espaciador-lista" id="espaciador-lista"></div>
+        <div class="compat-section" id="compat-section">
+            <h3>
+                <span id="current-trick">combine 👇</span>
+                <button id="info-trick-btn">info</button>
+                <button id="delete-connection">delete connections</button>
+            </h3>
+            <ul id="compat-list"></ul>
+        </div>
+    </div>
+    
+    <div class="right-panel">
+        <div class="recuadros-container" id="recuadros-container">
+            <svg id="connections-svg"></svg>
+        </div>
+        <div class="papelera" id="papelera" title="delete todos">
+            <img src="https://img.icons8.com/ios/50/000000/trash.png" alt="Papelera">
+            <div id="delete-message">delete</div>
+        </div>
+    </div>
+    
+    <div class="conexion-menu" id="conexion-menu">
+        <h3>connection
+            <span>
+                <button class="transicion-btn" id="toggle-transicion-btn">transition</button>
+                <button id="delete-conexion-btn">delete</button>
+            </span>
+        </h3>
+        <div class="conexion-content">
+            <textarea id="conexion-text" placeholder="name your transition" maxlength="20"></textarea>
+            <div class="char-counter" id="char-counter">0/20</div>
+            <div class="conexion-actions" id="conexion-actions">
+                <button class="save-conexion-btn" id="save-conexion-btn">save</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="info-modal" id="info-modal">
+        <h3>Trick info<button id="close-info-btn">close</button></h3>
+        <div class="info-content">
+            <div class="info-text" id="info-text"></div>
+            <div class="video-container">
+                <video class="info-video" id="info-video" controls>
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="help-overlay"></div>
+    
+    <div class="help-modal" id="help-modal">
+        <h3>TrickMap for calisthenics
+            <button id="close-help-btn">close</button>
+        </h3>
+        <div class="help-content">
+            <div class="help-text">
+                <p>This interactive tool helps you visualize and plan combos for your next competition, or just for fun</p>
+                <p><strong>How to use:</strong></p>
+                <ul>
+                    <li>Search and add tricks from the left panel</li>
+                    <li>Click on any trick to see compatible combinations</li>
+                    <li>Drag and drop tricks to organize your workspace</li>
+                    <li>Create connections and transitions between tricks</li>
+                    <li>Click 'info' on any trick for an informative panel</li>
+                    <li>Drag tricks to the trash icon to delete them</li>
+                    <li>Click the trash to clear everything</li>
+                </ul>
+                <p>Hope you enjoyed using this experimental tool, for more info of the full project checkout our socials👇</p>
+            </div>
+            <div class="help-actions">
+                <a href="https://linktr.ee/trickmap.fc" target="_blank" class="help-link-btn" id="external-link-btn">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
