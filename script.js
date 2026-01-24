@@ -858,8 +858,8 @@ function hideHelpModal() {
 
 // ========== INICIALIZACIÓN ==========
 function init() {
-    // MENSAJE DE CONSOLA - ELIMINAR PARA DESACTIVAR
-    console.log('%cWelcome to TrickMap!', 'color: #8A2BE2; font-size: 18px; font-weight: bold;');
+    // MENSAJE DE INFORMATIVO
+    console.log('%cWelcome to TrickMap!', 'color: #257F69; font-size: 18px; font-weight: bold;');
     console.log('%cQuick info:', 'color: #333; font-weight: bold;');
     console.log('We recomend the use in desktop, not optimised at the moment for touch screen');
     crearListaConGrupos();
@@ -974,7 +974,6 @@ function init() {
                     // LLAMAR ESTA FUNCIÓN - COMENTAR PARA DESACTIVAR EL MODAL
                     initWelcomeModal();
                     }
-
 // ========== MANEJO DE EVENTOS ==========
 function handleSearchKeys(e) {
     const visibleItems = Array.from(elements.itemList.getElementsByTagName('li'))
