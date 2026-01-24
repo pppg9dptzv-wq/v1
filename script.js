@@ -1,3 +1,15 @@
+// Debug: Verificar que todo se carga
+window.addEventListener('load', function() {
+    console.log('Página cargada');
+    console.log('Elementos cargados:', Object.keys(elements));
+    
+    // Verificar que los recuadros tienen IDs
+    setTimeout(() => {
+        const recuadros = document.querySelectorAll('.recuadro');
+        console.log('Recuadros encontrados:', recuadros.length);
+        recuadros.forEach(r => console.log(r.id, r.textContent));
+    }, 1000);
+});
 const elements = {
     search: document.getElementById('search'),
     itemList: document.getElementById('item-list'),
