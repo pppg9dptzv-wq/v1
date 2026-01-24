@@ -45,7 +45,7 @@ body {
 
 /* ========== THIN (para el buscador) ========== */
 #search {
-    font-weight: var(--font-weight-thin) !important; /* THIN */
+    font-weight: var(--font-weight-thin)/
     font-size: 16px;
     letter-spacing: 0.5px;
 }
@@ -57,7 +57,7 @@ body {
 
 /* ========== BOLD (para títulos) ========== */
 .left-panel h2 {
-    font-weight: var(--font-weight-bold) !important; /* BOLD */
+    font-weight: var(--font-weight-bold)
     font-size: 26px;
     margin-bottom: 20px;
     letter-spacing: -0.5px;
@@ -68,18 +68,18 @@ body {
 .info-modal h3,
 .help-modal h3,
 .welcome-content h3 {
-    font-weight: var(--font-weight-bold) !important; /* BOLD */
+    font-weight: var(--font-weight-bold)
 }
 
 /* Texto del truco actual */
 #current-trick {
-    font-weight: var(--font-weight-bold) !important; /* BOLD */
+    font-weight: var(--font-weight-bold)
 }
 
 /* Headers de categorías en la lista */
 .categoria-header {
-    font-weight: var(--font-weight-bold) !important; /* BOLD */
-    background-color: #e8e8e8 !important;
+    font-weight: var(--font-weight-bold)
+    background-color: #e8e8e8;
 }
 
 /* ========== MEDIUM (para todo lo demás - ya aplicado por defecto) ========== */
@@ -125,7 +125,7 @@ button {
 
 /* Para elementos que necesitan más énfasis */
 .highlighted {
-    font-weight: var(--font-weight-bold) !important; /* BOLD cuando está destacado */
+    font-weight: var(--font-weight-bold)
 }
 
 #close-help-btn,
@@ -133,18 +133,11 @@ button {
 #delete-connection,
 .save-conexion-btn,
 .transicion-btn {
-    font-weight: var(--font-weight-medium); /* O cambia a bold si prefieres */
+    font-weight: var(--font-weight-medium);
 }
 
 #help-btn {
     font-weight: var(--font-weight-bold);
-}
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    display: flex;
 }
 
 .left-panel {
