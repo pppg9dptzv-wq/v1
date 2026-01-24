@@ -18,7 +18,7 @@ const elements = {
     toggleTransicionBtn: document.getElementById('toggle-transicion-btn'),
     conexionActions: document.getElementById('conexion-actions'),
     infoModal: document.getElementById('info-modal'),
-    infoText: document.getElementById('info-text'),
+    trickInfo: document.getElementById('info-text'),
     infoVideo: document.getElementById('info-video'),
     closeInfoBtn: document.getElementById('close-info-btn'),
     infoTrickBtn: document.getElementById('info-trick-btn'),
