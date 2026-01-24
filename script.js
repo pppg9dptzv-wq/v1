@@ -122,10 +122,9 @@ let isSearchListVisible = false;
 let isNavigatingWithArrows = false;
 
 //disable the rigth click
-document.addEventlistener('contextmenu',(e) => {
-    //disable controle.preventDefea
-    e.preventDefaut()
-    return false
+document.addEventListener('contextmenu',(e) => {
+    //disable control
+    e.preventDefaut(), false);
     document.addEventListener('keydown',(e) => {
 })
 if(e.ctrlKey || e.keyCode == 123){
