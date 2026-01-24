@@ -418,7 +418,7 @@ function deleteRecuadro(recuadro) {
 // ========== FUNCIONES DE COMPATIBILIDAD ==========
 function showCompatibles(baseText) {
     elements.compatList.innerHTML = '';
-    elements.currentTrickSpan.textContent = 'Combine ' + (currentRecuadro ? currentRecuadro.textContent : baseText) + '👇';
+    elements.currentTrickSpan.textContent = 'Combine ' + (currentRecuadro ? currentRecuadro.textContent : baseText);
 
     const hasInfo = trickInfo[baseText] || false;
     elements.infoTrickBtn.style.display = hasInfo ? 'inline' : 'none';
