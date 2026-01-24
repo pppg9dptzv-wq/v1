@@ -121,6 +121,11 @@ let highlightedIndex = -1;
 let isSearchListVisible = false;
 let isNavigatingWithArrows = false;
 
+// ========== DETECCIÓN TÁCTIL ==========
+const isTouchDevice = 'ontouchstart' in window || 
+    navigator.maxTouchPoints > 0 || 
+    navigator.msMaxTouchPoints > 0;
+
 // ========== FUNCIONES DE UTILIDAD ==========
 function getConexionKey(fromId, toId) {
     return `${fromId}-${toId}`;
@@ -383,6 +388,74 @@ function setupRecuadroEvents(recuadro) {
             showCompatibles(getBaseTrickName(currentRecuadro.textContent));
         }
     });
+    // === PANTALLA TÁCTIL ===
+    let touchStartX, touchStartY, touchStartTime;
+    let isTap = false;
+    
+    recuadro.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            touchStartTime = Date.now();
+            isTap = true;
+            
+            // Para arrastrar en móvil
+            isDragging = true;
+            draggedElement = recuadro;
+            const rect = recuadro.getBoundingClientRect();
+            offsetX = touch.clientX - rect.left;
+            offsetY = touch.clientY - rect.top;
+            
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    recuadro.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 1 && isDragging) {
+            const touch = e.touches[0];
+            const moveX = Math.abs(touch.clientX - touchStartX);
+            const moveY = Math.abs(touch.clientY - touchStartY);
+            
+            // Si se movió más de 10px, no es un tap
+            if (moveX > 10 || moveY > 10) {
+                isTap = false;
+                
+                // Mover el recuadro
+                const containerRect = elements.recuadrosContainer.getBoundingClientRect();
+                let newLeft = touch.clientX - containerRect.left - offsetX;
+                let newTop = touch.clientY - containerRect.top - offsetY;
+                
+                newLeft = Math.max(0, Math.min(newLeft, containerRect.width - recuadro.offsetWidth));
+                newTop = Math.max(0, Math.min(newTop, containerRect.height - recuadro.offsetHeight));
+                
+                recuadro.style.left = newLeft + 'px';
+                recuadro.style.top = newTop + 'px';
+                updateConnections();
+            }
+            
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    recuadro.addEventListener('touchend', function(e) {
+        if (isTap && Date.now() - touchStartTime < 300) {
+            // Es un tap (click táctil)
+            e.preventDefault();
+            currentRecuadro = recuadro;
+            showCompatibles(getBaseTrickName(currentRecuadro.textContent));
+        }
+        
+        isDragging = false;
+        draggedElement = null;
+        isTap = false;
+    }, { passive: false });
+    
+    // Prevenir el menú contextual en táctil largo
+    recuadro.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
 }
 
 function deleteRecuadro(recuadro) {
@@ -457,11 +530,31 @@ function showCompatibles(baseText) {
             if (isConnected) {
                 li.classList.add('opaca');
                 li.title = "Already connected";
-            } else {
+            } 
+            else {
                 li.title = "Click to connect";
             }
+               // === AÑADIR EVENTOS TÁCTILES ===
+                li.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                    this.style.backgroundColor = '#f0f0f0';
+                }, { passive: true });
     
-            li.addEventListener('click', () => {
+                li.addEventListener('touchend', function(e) {
+                    e.stopPropagation();
+                    this.style.backgroundColor = '';
+        
+                    if (!this.classList.contains('opaca')) {
+                        selectCompatible(item.id, item.trickName);
+                    }
+                }, { passive: true });
+    
+                li.addEventListener('touchcancel', function() {
+                   this.style.backgroundColor = '';
+                }, { passive: true });
+
+                li.addEventListener('click', () => {
+
                 // Solo permitir click si no está opaco
                 if (!li.classList.contains('opaca')) {
                     selectCompatible(item.id, item.trickName);
@@ -982,6 +1075,34 @@ function init() {
                     // LLAMAR ESTA FUNCIÓN - COMENTAR PARA DESACTIVAR EL MODAL
                     initWelcomeModal();
                     }
+                // === AÑADIR EVENTOS TÁCTILES GLOBALES ===
+                if (isTouchDevice) {
+                    // Prevenir zoom con doble tap
+                    document.addEventListener('touchstart', function(e) {
+                       if (e.touches.length > 1) {
+                            e.preventDefault();
+                        }
+                    }, { passive: false });
+        
+                    // Prevenir scroll cuando se está arrastrando
+                    document.addEventListener('touchmove', function(e) {
+                        if (isDragging) {
+                            e.preventDefault();
+                        }
+                    }, { passive: false });
+        
+                    // Mejorar el buscador para táctil
+                    elements.search.addEventListener('touchstart', function(e) {
+                        e.stopPropagation();
+                        mostrarElemento(elements.itemList);
+                       animarTransicionListas();
+                        this.focus();
+                        e.preventDefault();
+                    }, { passive: false });
+                }
+    
+
+
 // ========== MANEJO DE EVENTOS ==========
 function handleSearchKeys(e) {
     const visibleItems = Array.from(elements.itemList.getElementsByTagName('li'))
@@ -1047,10 +1168,12 @@ function handleMouseUp() {
     
     const papeleraRect = elements.papelera.getBoundingClientRect();
     const draggedRect = draggedElement.getBoundingClientRect();
-    const isOverTrash = draggedRect.right > papeleraRect.left && 
-                       draggedRect.left < papeleraRect.right &&
-                       draggedRect.bottom > papeleraRect.top && 
-                       draggedRect.top < papeleraRect.bottom;
+    const margin = isTouchDevice ? 30 : 0;
+    const isOverTrash =
+    draggedRect.right > papeleraRect.left && 
+    draggedRect.left < papeleraRect.right &&
+    draggedRect.bottom > papeleraRect.top && 
+    draggedRect.top < papeleraRect.bottom;
     
     if (isOverTrash) deleteRecuadro(draggedElement);
     draggedElement = null;
