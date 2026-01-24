@@ -1,4 +1,3 @@
-// ========== VARIABLES GLOBALES ==========
 const elements = {
     search: document.getElementById('search'),
     itemList: document.getElementById('item-list'),
