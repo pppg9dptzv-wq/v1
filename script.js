@@ -1144,3 +1144,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Iniciar la aplicación
 init();
+// Código de prueba - elimina después
+function testConection() {
+    console.log('=== EJECUTANDO PRUEBA ===');
+    
+    // Agregar algunos recuadros automáticamente
+    addRecuadro('360');
+    addRecuadro('540');
+    addRecuadro('540'); // Segunda instancia
+    
+    setTimeout(() => {
+        // Hacer clic en el primer recuadro (360)
+        const primerRecuadro = document.querySelector('.recuadro');
+        if (primerRecuadro) {
+            console.log('Haciendo click en:', primerRecuadro.textContent);
+            primerRecuadro.click();
+            
+            // Esperar y luego hacer clic en el primer 540 de la lista
+            setTimeout(() => {
+                const primerItemLista = elements.compatList.querySelector('li');
+                if (primerItemLista) {
+                    console.log('Haciendo click en item de lista:', primerItemLista.textContent);
+                    primerItemLista.click();
+                }
+            }, 1000);
+        }
+    }, 500);
+}
+
+// Ejecutar prueba después de cargar la página
+window.addEventListener('load', () => {
+    setTimeout(testConection, 2000);
+});
