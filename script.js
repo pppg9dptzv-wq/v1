@@ -1120,6 +1120,16 @@ function handleGlobalKeydown(e) {
         }
     }
 }
+function scrollToContent() {
+  const contentSection = document.getElementById('content');
+  if (contentSection) {
+    contentSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Page loaded successfully');
+});
 
 // Iniciar la aplicación
 init();
