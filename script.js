@@ -79,6 +79,7 @@ const trickInfo = {
     '360': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     '540': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     '720': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    '900': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     '1080': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     '1260': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'laizans': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
