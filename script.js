@@ -942,6 +942,38 @@ function init() {
     
     // Event listener global de teclado
     document.addEventListener('keydown', handleGlobalKeydown);
+    
+    // MODAL DE BIENVENIDA - COMENTAR PARA DESACTIVAR
+            function initWelcomeModal() {
+                const welcomeModal = document.getElementById('welcome-modal');
+                const closeWelcomeBtn = document.getElementById('close-welcome-btn');
+    
+                // Mostrar inmediatamente
+                welcomeModal.style.display = 'flex';
+    
+                // Cerrar al hacer click en el botón
+                closeWelcomeBtn.addEventListener('click', () => {
+                    welcomeModal.style.display = 'none';
+                });
+    
+                // Cerrar al hacer click fuera del contenido
+                welcomeModal.addEventListener('click', (e) => {
+                    if (e.target === welcomeModal) {
+                        welcomeModal.style.display = 'none';
+                    }
+                });
+    
+                // Cerrar con tecla Escape
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && welcomeModal.style.display === 'flex') {
+                        welcomeModal.style.display = 'none';
+                    }
+                });
+            }
+
+                    // LLAMAR ESTA FUNCIÓN - COMENTAR PARA DESACTIVAR EL MODAL
+                    initWelcomeModal();
+                    }
 }
 
 // ========== MANEJO DE EVENTOS ==========
