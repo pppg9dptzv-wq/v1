@@ -450,6 +450,7 @@ function showCompatibles(baseText) {
             recuadrosPorNombre[trickName].forEach(item => {
                 const li = document.createElement('li');
                 li.textContent = item.text;
+                li.dataset.targetId = item.id;
                 
                 // VERIFICAR SI ESTÁ CONECTADO (¡ESTO ES CLAVE!)
                 const isConnected = currentConnections.includes(item.id);
@@ -541,14 +542,14 @@ function selectCompatible(targetId, trickName) {
         allConnections[connectionKey] = { type: 'normal', notes: '', displayText: '' };
         
         updateConnections();
-        showCompatibles(getBaseTrickName(currentRecuadro.textContent));
+
         // Encontrar y marcar el elemento en la lista como opaco
         const listItems = Array.from(elements.compatList.children);
         listItems.forEach(li => {
             if (li.textContent.includes(getBaseTrickName(targetElement.textContent))) {
                 li.classList.add('opaca');
-                li.title = "Already connected";
-                li.style.opacity = '0.5';
+                li.style.pointerEvents = 'none';
+                li.style.cursor = 'default';
             }
         });
     
