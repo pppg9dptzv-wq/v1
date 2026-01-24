@@ -974,7 +974,6 @@ function init() {
                     // LLAMAR ESTA FUNCIÓN - COMENTAR PARA DESACTIVAR EL MODAL
                     initWelcomeModal();
                     }
-}
 
 // ========== MANEJO DE EVENTOS ==========
 function handleSearchKeys(e) {
