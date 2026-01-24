@@ -31,13 +31,13 @@ const elements = {
 };
 
 const tricksByCategory = {
-    'tricks': ['180', '360', '540', 'muscle-up', 'laizans', 'srimflip', 'giant swing', 'delchev', 'geinger'],
-    'super tricks': ['frontflip', 'oa frontflip', 'menendes', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', '720', '900', '1260', '1260'],
+    'tricks': ['180', '360', '540', 'geinger', 'muscle-up', 'giant swing', 'laizans', 'srimflip'],
+    'super tricks': ['frontflip', '720', '900', 'oa frontflip', 'delchev', 'menendes', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', '1260', '1260'],
     'flyaways': ['back', 'front', 'front full', 'double back', 'back full', 'back double full'],
     'power moves': ['planche', 'front lever', 'back lever', 'hefesto']
 };
         
-const originalItems = ['muscle-up', 'planche', 'front lever', 'back lever', 'hefesto', '360', '180', '540', 'laizans', 'back', 'srimflip', 'giant swing', 'frontflip', 'oa frontflip', 'delchev', 'geinger', 'front', 'front full', 'double back', 'back double full', '720', '900', '1260', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?'];
+const originalItems = ['muscle-up', 'planche', 'front lever', 'back lever', 'hefesto', '360', '180', '540', 'laizans', 'back', 'srimflip', 'giant swing', 'frontflip', 'oa frontflip', 'delchev', 'geinger', 'front', 'front full', 'double back', 'back double full', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?'];
         
     const compatibilities = {
     'muscle-up': ['planche', 'hefesto', '360', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
@@ -103,7 +103,7 @@ const trickInfo = {
     'king 540': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'king 720': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'king 900': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-    'king 1260': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    'king 1260?': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
 };
 // ========== ESTADO DE LA APLICACIÓN ==========
 const allConnections = {};
