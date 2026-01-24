@@ -424,108 +424,30 @@ function deleteRecuadro(recuadro) {
 }
 
 // ========== FUNCIONES DE COMPATIBILIDAD ==========
-function showCompatibles(baseText) {
-    elements.compatList.innerHTML = '';
-    elements.currentTrickSpan.textContent = 'Combine ' + (currentRecuadro ? currentRecuadro.textContent : baseText);
-
-    const hasInfo = trickInfo[baseText] || false;
-    elements.infoTrickBtn.style.display = hasInfo ? 'inline' : 'none';
-
-    const compatibles = compatibilities[baseText] || [];
-    const allRecuadros = Array.from(elements.recuadrosContainer.children)
-        .filter(el => el.classList.contains('recuadro') && 
-                     currentRecuadro && 
-                     el.id !== currentRecuadro.id);
-
-    const recuadrosPorNombre = {};
-    allRecuadros.forEach(recuadro => {
-        const recuadroBaseText = getBaseTrickName(recuadro.textContent);
-        if (!recuadrosPorNombre[recuadroBaseText]) {
-            recuadrosPorNombre[recuadroBaseText] = [];
-        }
-        recuadrosPorNombre[recuadroBaseText].push({
-            id: recuadro.id,
-            text: recuadro.textContent,
-            trickName: recuadroBaseText
-        });
-    });
-
-    // Obtener las conexiones actuales del truco seleccionado
-    const currentConnections = activeConnections[currentRecuadro.id] || [];
+function selectCompatible(targetId, trickName) {
+    if (!currentRecuadro) return;
     
-    // DEBUG: Ver qué conexiones existen
-    console.log('Current recuadro ID:', currentRecuadro.id);
-    console.log('Current connections:', currentConnections);
+    // NO llamar a showCompatibles() de nuevo
+    // En lugar de eso, actualizar la UI directamente
     
-    compatibles.forEach(trickName => {
-        if (recuadrosPorNombre[trickName]) {
-            recuadrosPorNombre[trickName].forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item.text;
-                li.dataset.targetId = item.id; // ID único del recuadro
-                li.dataset.baseName = item.trickName; // Nombre base
-                
-                // VERIFICAR SI ESTÁ CONECTADO - USANDO EL ID ÚNICO
-                const isConnected = currentConnections.includes(item.id);
-                
-                console.log(`Item ${item.id} (${item.text}) connected: ${isConnected}`);
-                
-                if (isConnected) {
-                    li.classList.add('opaca');
-                    li.title = "Already connected";
-                    li.style.pointerEvents = 'none'; // No permitir clicks
-                    li.style.cursor = 'default';
-                } else {
-                    li.title = "Click to connect";
-                    li.addEventListener('click', () => {
-                        selectCompatible(item.id, item.trickName);
-                    });
-                }
-                
-                // Efectos hover solo para elementos no opacos
-                if (!isConnected) {
-                    li.addEventListener('mouseenter', () => {
-                        li.style.backgroundColor = '#f0f0f0';
-                        li.style.transform = 'translateX(5px)';
-                    });
-                    li.addEventListener('mouseleave', () => {
-                        li.style.backgroundColor = '';
-                        li.style.transform = '';
-                    });
-                }
-                
-                li.style.opacity = isConnected ? '0.5' : '1';
-                li.style.transform = 'translateX(-10px)';
-                li.style.transition = 'opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease';
-                
-                elements.compatList.appendChild(li);
-                
-                // Animar entrada
-                setTimeout(() => {
-                    li.style.transform = 'translateX(0)';
-                }, 10);
-            });
-        }
+    // ... código para agregar la conexión ...
+    
+    // Marcar SOLO el elemento específico
+    const listItem = Array.from(elements.compatList.children).find(li => {
+        return li.textContent === document.getElementById(targetId).textContent;
     });
     
-    if (elements.compatList.children.length === 0) {
-        const li = document.createElement('li');
-        li.textContent = 'no possible combinations';
-        li.classList.add('no-compatibles-message');
-        elements.compatList.appendChild(li);
+    if (listItem) {
+        listItem.classList.add('opaca');
+        listItem.style.opacity = '0.5';
+        listItem.style.pointerEvents = 'none';
+        
+        // Remover el event listener
+        const newListItem = listItem.cloneNode(true);
+        listItem.parentNode.replaceChild(newListItem, listItem);
     }
     
-    animarTransicionListas();
-    
-    setTimeout(() => {
-        elements.compatSection.style.display = 'flex';
-        requestAnimationFrame(() => {
-            elements.compatSection.classList.add('mostrar');
-        });
-    }, 10);
-    
-    const hasConnections = currentConnections.length > 0;
-    elements.deleteConnectionBtn.style.display = hasConnections ? 'inline' : 'none';
+    updateConnections();
 }
 
 function hideCompatibles() {
