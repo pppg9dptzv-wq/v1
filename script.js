@@ -32,7 +32,7 @@ const elements = {
 
 const tricksByCategory = {
     'tricks': ['180', '360', '540', 'geinger', 'muscle-up', 'giant swing', 'laizans', 'srimflip'],
-    'super tricks': ['frontflip', '720', '900', 'oa frontflip', 'delchev', 'menendes', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', '1260', '1260'],
+    'super tricks': ['frontflip', '720', '900', 'oa frontflip', 'delchev', 'menendes', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', '1080', '1260'],
     'flyaways': ['back', 'front', 'front full', 'double back', 'back full', 'back double full'],
     'power moves': ['planche', 'front lever', 'back lever', 'hefesto']
 };
