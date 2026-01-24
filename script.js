@@ -1011,6 +1011,21 @@ function init() {
     elements.papelera.addEventListener('click', clearAll);
     elements.papelera.addEventListener('dragenter', () => elements.deleteMessage.style.display = 'block');
     elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
+    // Event listeners de la papelera (EXISTENTES - MANTENER)
+    elements.papelera.addEventListener('click', clearAll);
+    elements.papelera.addEventListener('dragenter', () => elements.deleteMessage.style.display = 'block');
+    elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
+
+    // === AÑADIR EVENTOS TÁCTILES PARA PAPELERA ===
+    elements.papelera.addEventListener('touchstart', function() {
+    elements.deleteMessage.style.display = 'block';
+    this.style.transform = 'scale(1.1)';
+    }, { passive: true });
+
+    elements.papelera.addEventListener('touchend', function() {
+    elements.deleteMessage.style.display = 'none';
+    this.style.transform = 'scale(1)';
+    }, { passive: true });
     
     // Event listeners del mouse
     document.addEventListener('mousemove', handleMouseMove);
@@ -1099,6 +1114,13 @@ function init() {
                         this.focus();
                         e.preventDefault();
                     }, { passive: false });
+                // === AÑADIR CLASE CSS SEGÚN DISPOSITIVO ===
+                    if (isTouchDevice) {
+                        document.documentElement.classList.add('touch-device');
+                        console.log('Modo táctil activado');
+                    } else {
+                        document.documentElement.classList.add('non-touch-device');
+                    }
                 }
     
 
