@@ -793,7 +793,7 @@ function showTrickInfo() {
     const info = trickInfo[baseText];
     if (!info) return;
     
-    elements.infoText.textContent = info.text;
+    elements.trickInfo.textContent = info.text;
     elements.infoVideo.parentElement.classList.add('cargando');
     elements.infoVideo.src = info.video;
     
