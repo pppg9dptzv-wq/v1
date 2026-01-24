@@ -121,6 +121,13 @@ let highlightedIndex = -1;
 let isSearchListVisible = false;
 let isNavigatingWithArrows = false;
 
+//disable the rigth click
+document.addEventlistener('contextmenu', (e) => {
+    //disable controle.preventDefea
+    e.preventDefaut()
+    return false
+})
+
 // ========== DETECCIÓN TÁCTIL ==========
 const isTouchDevice = 'ontouchstart' in window || 
     navigator.maxTouchPoints > 0 || 
