@@ -121,19 +121,17 @@ let highlightedIndex = -1;
 let isSearchListVisible = false;
 let isNavigatingWithArrows = false;
 
-//disable the rigth click
-document.addEventListener('contextmenu',(e) => {
-    //disable control
-    e.preventDefaut(), false);
-    document.addEventListener('keydown',(e) => {
-})
-if(e.ctrlKey || e.keyCode == 123){
-            e.stopPropagation() 
-            e.preventDefault()
-
-        }
-
-    })
+// DISABLE RIGHT CLICK
+document. addEventListener ("contextmenu", function(e) {
+e.preventDefault();
+}, false);
+// DISABLE SHORTCUT KEYS
+document.addEventListener ("keydown", function (e) {
+if (e.ctrlkey || e.keyCode==123) {
+e. stopPropagation();
+e. preventDefault();
+}
+});
 // ========== DETECCIÓN TÁCTIL ==========
 const isTouchDevice = 'ontouchstart' in window || 
     navigator.maxTouchPoints > 0 || 
