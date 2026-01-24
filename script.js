@@ -103,7 +103,7 @@ const trickInfo = {
     'king 540': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'king 720': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'king 900': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-    'king 1260?': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    'king 1260?': { text: 'zone under construction: we need volunteers for the example videos, contact with us for promotion', video: 'https://www.w3schools.com/html/mov_bbb.mp4' }
 };
 // ========== ESTADO DE LA APLICACIÓN ==========
 const allConnections = {};
