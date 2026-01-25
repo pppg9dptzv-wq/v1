@@ -238,6 +238,42 @@ body {
   flex-wrap: wrap;
 }
 
+/* subscription Section */
+.subscription-section {
+  background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 50%, #f3f4f6 100%);
+  padding: 96px 24px;
+}
+
+.subscription-wrapper {
+  max-width: 56rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.subscription-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 24px;
+}
+
+.subscription-subtitle {
+  font-size: 1.25rem;
+  color: #4b5563;
+  margin-bottom: 48px;
+}
+
+.subscription-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
 @media (min-width: 640px) {
   .download-buttons {
     flex-direction: row;
