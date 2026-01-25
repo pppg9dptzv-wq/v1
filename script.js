@@ -1230,6 +1230,12 @@ function handleMouseUp() {
 
 // === AÑADE ESTA NUEVA FUNCIÓN ===
 function checkAndDeleteDraggedElement() {
+    console.log("=== DEBUG PAPELERA ===");
+    console.log("Dragged element:", draggedElement);
+    console.log("Dragged element position:", draggedElement.style.left, draggedElement.style.top);
+    console.log("Bounding rect:", draggedElement.getBoundingClientRect());
+    console.log("Papelera rect:", elements.papelera.getBoundingClientRect());
+    console.log("======================");
     if (!draggedElement) return;
     
     console.log("Verificando papelera...");
