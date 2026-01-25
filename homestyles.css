@@ -50,7 +50,7 @@ body {
 }
 
 .hero-title {
-  font-size: clamp(2rem, 8vw, 7rem);
+  font-size: clamp(4rem, 16vw, 14rem);
   font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 1.2;
@@ -403,7 +403,7 @@ body {
 /* Responsive */
 @media (max-width: 640px) {
   .hero-title {
-    font-size: 5rem;
+    font-size: 3rem;
   }
 
   .hero-subtitle {
