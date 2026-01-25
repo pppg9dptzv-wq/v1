@@ -22,6 +22,59 @@
     font-display: swap;
 }
 
+/* === ESTILOS PARA DISPOSITIVOS TÁCTILES === */
+.touch-device .recuadro {
+    min-width: 110px !important;
+    min-height: 55px !important;
+    padding: 14px 22px !important;
+    font-size: 17px !important;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.touch-device #item-list li,
+.touch-device #compat-list li {
+    padding: 16px 22px !important;
+    min-height: 54px !important;
+    font-size: 17px !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+}
+
+.touch-device button,
+.touch-device .boton {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 14px 24px;
+}
+
+/* Mejorar la papelera en táctil */
+.touch-device #papelera {
+    width: 65px;
+    height: 65px;
+    font-size: 28px;
+    border-radius: 15px;
+}
+
+/* Aumentar área clickeable del buscador */
+.touch-device #search {
+    padding: 16px 20px;
+    font-size: 18px;
+    min-height: 60px;
+}
+
+/* Añadir clase táctil al body */
+@media (hover: none) and (pointer: coarse) {
+    body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 9999;
+    }
+}
 /* ========== RESET Y BASE ========== */
 * {
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
