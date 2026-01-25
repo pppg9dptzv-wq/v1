@@ -426,6 +426,10 @@ body {
   .download-section {
     padding: 48px 24px;
   }
+
+  .subscription-section {
+    padding: 48px 24px;
+  }
 /* === ESTILOS PARA DISPOSITIVOS TÁCTILES === */
 .touch-device .recuadro {
     min-width: 110px !important;
