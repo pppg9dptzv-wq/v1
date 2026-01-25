@@ -30,46 +30,48 @@ const elements = {
 };
 
 const tricksByCategory = {
-    'tricks': ['180', '360', '540', 'geinger', 'muscle-up', 'giant swing', 'laizans', 'srimflip'],
+    'tricks': ['360', '540', 'geinger', 'frisbee', 'muscle-up', 'giant swing', 'laizans', 'shrimp flip', 'barspin', '180'],
     'super tricks': ['frontflip', '720', '900', 'oa frontflip', 'delchev', 'menendes', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', '1080', '1260'],
     'flyaways': ['back', 'front', 'front full', 'double back', 'back full', 'back double full'],
     'power moves': ['planche', 'front lever', 'back lever', 'hefesto']
 };
         
-const originalItems = ['muscle-up', 'planche', 'front lever', 'back lever', 'hefesto', '360', '180', '540', 'laizans', 'back', 'srimflip', 'giant swing', 'frontflip', 'oa frontflip', 'delchev', 'geinger', 'front', 'front full', 'double back', 'back double full', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?'];
+const originalItems = ['muscle-up', 'planche', 'front lever', 'back lever', 'hefesto', 'barspin', '360', '180', '540', 'laizans', 'back', 'shrimp flip', 'giant swing', 'frontflip', 'oa frontflip', 'delchev', 'geinger', 'frisbee', 'front', 'front full', 'double back', 'back double full', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?'];
         
     const compatibilities = {
-    'muscle-up': ['planche', 'hefesto', '360', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '180': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '360': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '540': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '720': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '900': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '1080': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '1260': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'laizans': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'srimflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'giant swing': ['front lever', 'back lever', 'planche', 'laizans', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'menendes': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'oa frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'delchev': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'geinger': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'front lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'back lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'planche': ['front lever', 'back lever', 'hefesto', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'hefesto': ['front lever', 'back lever', 'muscle-up', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'muscle-up': ['barspin', 'planche', 'hefesto', '360', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '180': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '360': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '540': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '720': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '900': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '1080': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '1260': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'barspin': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'laizans': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'shrimp flip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'giant swing': ['front lever', 'back lever', 'planche', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'menendes': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'oa frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'delchev': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'frisbee': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'geinger': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'front lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'back lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'planche': ['front lever', 'back lever', 'hefesto', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'hefesto': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 360': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 540': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 720': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 900': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 1260?': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
     'double back': [],
     'back double full': [],
     'back': [],
     'back full': [],
     'front': [],
     'front full': [],
-    'king 360': ['front lever', 'back lever', 'laizans', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 540': ['front lever', 'back lever', 'laizans', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 720': ['front lever', 'back lever', 'laizans', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 900': ['front lever', 'back lever', 'laizans', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 1260?': ['front lever', 'back lever', 'laizans', '180', '360', 'srimflip', '540', 'geinger', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
 };
 
 const trickInfo = {
@@ -81,13 +83,15 @@ const trickInfo = {
     '900': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     '1080': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     '1260': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    'barspin': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },    
     'laizans': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-    'srimflip': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    'shrimp flip': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'giant swing': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'menendes': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'oa frontflip': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'frontflip': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'delchev': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    'frisbee': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'geinger': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'front lever': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'back lever': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
@@ -103,7 +107,7 @@ const trickInfo = {
     'king 540': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'king 720': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'king 900': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-    'king 1260?': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    'king 1260?': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' }
 };
 // ========== ESTADO DE LA APLICACIÓN ==========
 const allConnections = {};
