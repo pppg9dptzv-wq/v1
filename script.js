@@ -386,7 +386,8 @@ function setupRecuadroEvents(recuadro) {
         offsetX = e.offsetX;
         offsetY = e.offsetY;
         e.preventDefault();
-    });
+        })
+    };
     
     recuadro.addEventListener('click', function(e) {
         if (e.button === 0) {
