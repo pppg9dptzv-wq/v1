@@ -1,3 +1,18 @@
+// DEBUG: Contar llaves
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Buscando errores de sintaxis...');
+    
+    // Contar llaves en el código
+    const scriptContent = document.currentScript.textContent;
+    const openBraces = (scriptContent.match(/{/g) || []).length;
+    const closeBraces = (scriptContent.match(/}/g) || []).length;
+    
+    console.log(`Llaves abiertas: ${openBraces}, Cerradas: ${closeBraces}`);
+    
+    if (openBraces !== closeBraces) {
+        console.error(`ERROR: Faltan ${openBraces - closeBraces} llaves de cierre!`);
+    }
+});
 const elements = {
     search: document.getElementById('search'),
     itemList: document.getElementById('item-list'),
