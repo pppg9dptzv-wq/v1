@@ -443,7 +443,27 @@ function setupRecuadroEvents(recuadro) {
                 recuadro.style.left = newLeft + 'px';
                 recuadro.style.top = newTop + 'px';
                 updateConnections();
+                
+            // === NUEVO: Verificar papelera DURANTE el movimiento ===
+            const recuadroRect = recuadro.getBoundingClientRect();
+            const papeleraRect = elements.papelera.getBoundingClientRect();
+            const margin = 40;
+            
+            const isOverTrashNow = 
+                recuadroRect.right - margin > papeleraRect.left &&
+                recuadroRect.left + margin < papeleraRect.right &&
+                recuadroRect.bottom - margin > papeleraRect.top &&
+                recuadroRect.top + margin < papeleraRect.bottom;
+            
+            if (isOverTrashNow) {
+                elements.papelera.classList.add('active');
+                elements.deleteMessage.style.display = 'block';
+                elements.deleteMessage.textContent = '¡SUELTA PARA ELIMINAR!';
+            } else {
+                elements.papelera.classList.remove('active');
+                elements.deleteMessage.textContent = 'Drop here to delete';
             }
+        }
             
             e.preventDefault();
         }
@@ -455,20 +475,24 @@ function setupRecuadroEvents(recuadro) {
             e.preventDefault();
             currentRecuadro = recuadro;
             showCompatibles(getBaseTrickName(currentRecuadro.textContent));
-        }
+        } else {
+        // Fue un arrastre - verificar papelera
+        setTimeout(() => {
+            checkAndDeleteDraggedElement();
+        }, 50);
+    }
         
         isDragging = false;
-        setTimeout(() => checkAndDeleteDraggedElement(), 10);
         draggedElement = null;
         isTap = false;
-    }, { passive: false });
+        
+    // Ocultar mensaje después de un momento
+    setTimeout(() => {
+        elements.deleteMessage.style.display = 'none';
+        elements.papelera.classList.remove('active');
+    }, 1000);
     
-    // Prevenir el menú contextual en táctil largo
-    recuadro.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        return false;
-    });
-}
+}, { passive: false });
 
 function deleteRecuadro(recuadro) {
     const text = getBaseTrickName(recuadro.textContent);
@@ -1208,11 +1232,32 @@ function handleMouseUp() {
 function checkAndDeleteDraggedElement() {
     if (!draggedElement) return;
     
+    console.log("Verificando papelera...");
+    console.log("Dragged element:", draggedElement.id, draggedElement.textContent);
+    
     const papeleraRect = elements.papelera.getBoundingClientRect();
     const draggedRect = draggedElement.getBoundingClientRect();
+
+    // Obtener la posición REAL del recuadro (no la visual)
+    const recuadroRect = draggedElement.getBoundingClientRect();
+    const papeleraRect = elements.papelera.getBoundingClientRect();
+    
+    console.log("Posición recuadro:", {
+        left: recuadroRect.left,
+        right: recuadroRect.right,
+        top: recuadroRect.top,
+        bottom: recuadroRect.bottom
+    });
+    
+    console.log("Posición papelera:", {
+        left: papeleraRect.left,
+        right: papeleraRect.right,
+        top: papeleraRect.top,
+        bottom: papeleraRect.bottom
+    });
     
     // Calcular si está sobre la papelera (con margen para táctil)
-    const margin = isTouchDevice ? 40 : 20;
+    const margin = isTouchDevice ? 50 : 30;
     const isOverTrash = 
         draggedRect.right + margin > papeleraRect.left &&
         draggedRect.left - margin < papeleraRect.right &&
@@ -1222,6 +1267,7 @@ function checkAndDeleteDraggedElement() {
     console.log('Check delete:', { isOverTrash, draggedRect, papeleraRect });
     
     if (isOverTrash) {
+        console.log("¡ELIMINANDO RECUADRO!");
         // Feedback visual mejorado
         elements.papelera.style.transform = 'scale(1.4)';
         elements.papelera.style.backgroundColor = '#ff4444';
