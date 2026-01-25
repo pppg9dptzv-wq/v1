@@ -458,6 +458,7 @@ function setupRecuadroEvents(recuadro) {
         }
         
         isDragging = false;
+        setTimeout(() => checkAndDeleteDraggedElement(), 10);
         draggedElement = null;
         isTap = false;
     }, { passive: false });
@@ -1199,17 +1200,55 @@ function handleMouseUp() {
     isDragging = false;
     elements.deleteMessage.style.display = 'none';
     
+    // Usar la función común para ambos (mouse y touch)
+    checkAndDeleteDraggedElement();
+}
+
+// === AÑADE ESTA NUEVA FUNCIÓN ===
+function checkAndDeleteDraggedElement() {
+    if (!draggedElement) return;
+    
     const papeleraRect = elements.papelera.getBoundingClientRect();
     const draggedRect = draggedElement.getBoundingClientRect();
-    const margin = isTouchDevice ? 30 : 0;
-    const isOverTrash =
-    draggedRect.right > papeleraRect.left && 
-    draggedRect.left < papeleraRect.right &&
-    draggedRect.bottom > papeleraRect.top && 
-    draggedRect.top < papeleraRect.bottom;
     
-    if (isOverTrash) deleteRecuadro(draggedElement);
-    draggedElement = null;
+    // Calcular si está sobre la papelera (con margen para táctil)
+    const margin = isTouchDevice ? 40 : 20;
+    const isOverTrash = 
+        draggedRect.right + margin > papeleraRect.left &&
+        draggedRect.left - margin < papeleraRect.right &&
+        draggedRect.bottom + margin > papeleraRect.top &&
+        draggedRect.top - margin < papeleraRect.bottom;
+    
+    console.log('Check delete:', { isOverTrash, draggedRect, papeleraRect });
+    
+    if (isOverTrash) {
+        // Feedback visual mejorado
+        elements.papelera.style.transform = 'scale(1.4)';
+        elements.papelera.style.backgroundColor = '#ff4444';
+        elements.papelera.style.boxShadow = '0 0 20px rgba(255, 0, 0, 0.5)';
+        elements.deleteMessage.textContent = '¡SUELTA PARA ELIMINAR!';
+        elements.deleteMessage.style.color = '#ff0000';
+        elements.deleteMessage.style.fontWeight = 'bold';
+        
+        // Eliminar después de 0.5 segundos (o inmediatamente)
+        setTimeout(() => {
+            if (draggedElement) {
+                deleteRecuadro(draggedElement);
+            }
+            resetPapeleraStyles();
+        }, 500);
+    } else {
+        resetPapeleraStyles();
+    }
+}
+
+function resetPapeleraStyles() {
+    elements.papelera.style.transform = 'scale(1)';
+    elements.papelera.style.backgroundColor = '';
+    elements.papelera.style.boxShadow = '';
+    elements.deleteMessage.textContent = 'Drop here to delete';
+    elements.deleteMessage.style.color = '';
+    elements.deleteMessage.style.fontWeight = '';
 }
 
 function clearAll() {
