@@ -1144,6 +1144,7 @@ function init() {
                         this.focus();
                         e.preventDefault();
                     }, { passive: false });
+                }
                 // === AÑADIR CLASE CSS SEGÚN DISPOSITIVO ===
                     if (isTouchDevice) {
                         document.documentElement.classList.add('touch-device');
@@ -1151,7 +1152,6 @@ function init() {
                     } else {
                         document.documentElement.classList.add('non-touch-device');
                     }
-                }
     
 
 
