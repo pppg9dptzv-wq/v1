@@ -1003,6 +1003,7 @@ function hideHelpModal() {
 }
 
 // ========== INICIALIZACIÓN ==========
+// ========== INICIALIZACIÓN ==========
 function init() {
     // MENSAJE DE INFORMATIVO
     console.log('%cWelcome to TrickMap!', 'color: #257F69; font-size: 18px; font-weight: bold;');
@@ -1056,20 +1057,16 @@ function init() {
     elements.papelera.addEventListener('click', clearAll);
     elements.papelera.addEventListener('dragenter', () => elements.deleteMessage.style.display = 'block');
     elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
-    // Event listeners de la papelera (EXISTENTES - MANTENER)
-    elements.papelera.addEventListener('click', clearAll);
-    elements.papelera.addEventListener('dragenter', () => elements.deleteMessage.style.display = 'block');
-    elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
-
-    // === AÑADIR EVENTOS TÁCTILES PARA PAPELERA ===
+    
+    // Event listeners táctiles para papelera
     elements.papelera.addEventListener('touchstart', function() {
-    elements.deleteMessage.style.display = 'block';
-    this.style.transform = 'scale(1.1)';
+        elements.deleteMessage.style.display = 'block';
+        this.style.transform = 'scale(1.1)';
     }, { passive: true });
 
     elements.papelera.addEventListener('touchend', function() {
-    elements.deleteMessage.style.display = 'none';
-    this.style.transform = 'scale(1)';
+        elements.deleteMessage.style.display = 'none';
+        this.style.transform = 'scale(1)';
     }, { passive: true });
     
     // Event listeners del mouse
@@ -1101,6 +1098,138 @@ function init() {
         e.stopPropagation();
     });
     
+    // Event listener global de teclado
+    document.addEventListener('keydown', handleGlobalKeydown);
+    
+    // MODAL DE BIENVENIDA
+    (function initWelcomeModal() {
+        const welcomeModal = document.getElementById('welcome-modal');
+        if (!welcomeModal) return;
+        
+        const closeWelcomeBtn = document.getElementById('close-welcome-btn');
+
+        // Mostrar inmediatamente
+        welcomeModal.style.display = 'flex';
+
+        // Cerrar al hacer click en el botón
+        if (closeWelcomeBtn) {
+            closeWelcomeBtn.addEventListener('click', () => {
+                welcomeModal.style.display = 'none';
+            });
+        }
+
+        // Cerrar al hacer click fuera del contenido
+        welcomeModal.addEventListener('click', (e) => {
+            if (e.target === welcomeModal) {
+                welcomeModal.style.display = 'none';
+            }
+        });
+
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && welcomeModal.style.display === 'flex') {
+                welcomeModal.style.display = 'none';
+            }
+        });
+    })(); // <-- IIFE - se ejecuta inmediatamente
+    
+    // === AÑADIR EVENTOS TÁCTILES GLOBALES ===
+    if (isTouchDevice) {
+        // Prevenir zoom con doble tap
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevenir scroll cuando se está arrastrando
+        document.addEventListener('touchmove', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Buscador con doble tap
+        let lastTapTime = 0;
+        let tapCount = 0;
+        
+        elements.search.addEventListener('touchstart', function(e) {
+            const currentTime = new Date().getTime();
+            
+            if (currentTime - lastTapTime < 300) {
+                tapCount++;
+                if (tapCount === 2) {
+                    // Doble tap detectado
+                    e.stopPropagation();
+                    mostrarElemento(elements.itemList);
+                    animarTransicionListas();
+                    this.focus();
+                    tapCount = 0;
+                }
+            } else {
+                tapCount = 1;
+            }
+            
+            lastTapTime = currentTime;
+            
+            // Timer para resetear
+            setTimeout(() => {
+                tapCount = 0;
+            }, 500);
+            
+            e.preventDefault();
+        }, { passive: false });
+    }
+    
+    // === AÑADIR CLASE CSS SEGÚN DISPOSITIVO ===
+    if (isTouchDevice) {
+        document.documentElement.classList.add('touch-device');
+        console.log('Modo táctil activado');
+    } else {
+        document.documentElement.classList.add('non-touch-device');
+    }
+    
+    console.log('Inicialización completada');
+}
+
+// Iniciar la aplicación
+init();
+
+// ========== FUNCIONES ADICIONALES ==========
+
+// Esta función debe estar definida - añádela si no existe
+function checkAndDeleteDraggedElement() {
+    if (!draggedElement) return;
+    
+    const trashBox = elements.papelera.getBoundingClientRect();
+    const elementBox = draggedElement.getBoundingClientRect();
+    
+    const margin = isTouchDevice ? 50 : 30;
+    const isOverTrash = 
+        elementBox.right - margin > trashBox.left &&
+        elementBox.left + margin < trashBox.right &&
+        elementBox.bottom - margin > trashBox.top &&
+        elementBox.top + margin < trashBox.bottom;
+    
+    if (isOverTrash) {
+        elements.papelera.classList.add('active');
+        elements.deleteMessage.textContent = '¡ELIMINANDO...!';
+        
+        setTimeout(() => {
+            if (draggedElement && document.body.contains(draggedElement)) {
+                deleteRecuadro(draggedElement);
+            }
+            
+            setTimeout(() => {
+                elements.papelera.classList.remove('active');
+                elements.deleteMessage.textContent = 'Drop here to delete';
+            }, 300);
+        }, 200);
+    } else {
+        elements.papelera.classList.remove('active');
+        elements.deleteMessage.textContent = 'Drop here to delete';
+    }
+}
     // Event listener global de teclado
     document.addEventListener('keydown', handleGlobalKeydown);
     
@@ -1373,3 +1502,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Iniciar la aplicación
 init();
+// ========== CIERRE DEL SCRIPT ==========
+
+// Función auxiliar si falta
+function resetPapeleraStyles() {
+    elements.papelera.style.transform = '';
+    elements.papelera.style.backgroundColor = '';
+    elements.papelera.style.boxShadow = '';
+    elements.deleteMessage.textContent = 'Drop here to delete';
+    elements.deleteMessage.style.color = '';
+    elements.deleteMessage.style.fontWeight = '';
+}
+
+// Debug final
+console.log('Script.js cargado completamente');
+
+// Si usas módulos, exporta lo necesario
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { init };
+}
