@@ -121,10 +121,6 @@ let highlightedIndex = -1;
 let isSearchListVisible = false;
 let isNavigatingWithArrows = false;
 
-// DISABLE RIGHT CLICK
-document. addEventListener ("contextmenu", function(e) {
-e.preventDefault();
-}, false);
 // DISABLE SHORTCUT KEYS
 document.addEventListener ("keydown", function (e) {
 if (e.ctrlkey || e.keyCode==123) {
