@@ -1,18 +1,3 @@
-// DEBUG: Contar llaves
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Buscando errores de sintaxis...');
-    
-    // Contar llaves en el código
-    const scriptContent = document.currentScript.textContent;
-    const openBraces = (scriptContent.match(/{/g) || []).length;
-    const closeBraces = (scriptContent.match(/}/g) || []).length;
-    
-    console.log(`Llaves abiertas: ${openBraces}, Cerradas: ${closeBraces}`);
-    
-    if (openBraces !== closeBraces) {
-        console.error(`ERROR: Faltan ${openBraces - closeBraces} llaves de cierre!`);
-    }
-});
 const elements = {
     search: document.getElementById('search'),
     itemList: document.getElementById('item-list'),
@@ -136,6 +121,10 @@ let highlightedIndex = -1;
 let isSearchListVisible = false;
 let isNavigatingWithArrows = false;
 
+// DISABLE RIGHT CLICK
+document. addEventListener ("contextmenu", function(e) {
+e.preventDefault();
+}, false);
 // DISABLE SHORTCUT KEYS
 document.addEventListener ("keydown", function (e) {
 if (e.ctrlkey || e.keyCode==123) {
@@ -143,6 +132,7 @@ e. stopPropagation();
 e. preventDefault();
 }
 });
+
 // ========== DETECCIÓN TÁCTIL ==========
 const isTouchDevice = 'ontouchstart' in window || 
     navigator.maxTouchPoints > 0 || 
@@ -402,6 +392,7 @@ function setupRecuadroEvents(recuadro) {
         offsetY = e.offsetY;
         e.preventDefault();
     });
+    
     recuadro.addEventListener('click', function(e) {
         if (e.button === 0) {
             e.preventDefault();
@@ -432,51 +423,32 @@ function setupRecuadroEvents(recuadro) {
         }
     }, { passive: false });
     
-recuadro.addEventListener('touchmove', function(e) {
-    if (e.touches.length === 1 && isDragging) {
-        const touch = e.touches[0];
-        const moveX = Math.abs(touch.clientX - touchStartX);
-        const moveY = Math.abs(touch.clientY - touchStartY);
-        
-        if (moveX > 5 || moveY > 5) {
-            isTap = false;
+    recuadro.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 1 && isDragging) {
+            const touch = e.touches[0];
+            const moveX = Math.abs(touch.clientX - touchStartX);
+            const moveY = Math.abs(touch.clientY - touchStartY);
             
-            // Mover el recuadro
-            const containerBox = elements.recuadrosContainer.getBoundingClientRect();
-            let newLeft = touch.clientX - containerBox.left - offsetX;
-            let newTop = touch.clientY - containerBox.top - offsetY;
-            
-            newLeft = Math.max(0, Math.min(newLeft, containerBox.width - recuadro.offsetWidth));
-            newTop = Math.max(0, Math.min(newTop, containerBox.height - recuadro.offsetHeight));
-            
-            recuadro.style.left = newLeft + 'px';
-            recuadro.style.top = newTop + 'px';
-            updateConnections();
-            
-            // Verificar papelera DURANTE el movimiento
-            const currentRect = recuadro.getBoundingClientRect(); // <-- Usar nombre único
-            const trashBox = elements.papelera.getBoundingClientRect(); // <-- Usar nombre único
-            const margin = 40;
-            
-            const isOverNow = 
-                currentRect.right - margin > trashBox.left &&
-                currentRect.left + margin < trashBox.right &&
-                currentRect.bottom - margin > trashBox.top &&
-                currentRect.top + margin < trashBox.bottom;
-            
-            if (isOverNow) {
-                elements.papelera.classList.add('active');
-                elements.deleteMessage.style.display = 'block';
-                elements.deleteMessage.textContent = '¡SUELTA PARA ELIMINAR!';
-            } else {
-                elements.papelera.classList.remove('active');
-                elements.deleteMessage.textContent = 'Drop here to delete';
+            // Si se movió más de 10px, no es un tap
+            if (moveX > 10 || moveY > 10) {
+                isTap = false;
+                
+                // Mover el recuadro
+                const containerRect = elements.recuadrosContainer.getBoundingClientRect();
+                let newLeft = touch.clientX - containerRect.left - offsetX;
+                let newTop = touch.clientY - containerRect.top - offsetY;
+                
+                newLeft = Math.max(0, Math.min(newLeft, containerRect.width - recuadro.offsetWidth));
+                newTop = Math.max(0, Math.min(newTop, containerRect.height - recuadro.offsetHeight));
+                
+                recuadro.style.left = newLeft + 'px';
+                recuadro.style.top = newTop + 'px';
+                updateConnections();
             }
+            
+            e.preventDefault();
         }
-        
-        e.preventDefault();
-    }
-}, { passive: false });
+    }, { passive: false });
     
     recuadro.addEventListener('touchend', function(e) {
         if (isTap && Date.now() - touchStartTime < 300) {
@@ -484,24 +456,19 @@ recuadro.addEventListener('touchmove', function(e) {
             e.preventDefault();
             currentRecuadro = recuadro;
             showCompatibles(getBaseTrickName(currentRecuadro.textContent));
-        } else {
-        // Fue un arrastre - verificar papelera
-        setTimeout(() => {
-            checkAndDeleteDraggedElement();
-        }, 50);
-    }
+        }
         
         isDragging = false;
         draggedElement = null;
         isTap = false;
-        
-    // Ocultar mensaje después de un momento
-    setTimeout(() => {
-        elements.deleteMessage.style.display = 'none';
-        elements.papelera.classList.remove('active');
-    }, 1000);
+    }, { passive: false });
     
-}, { passive: false });
+    // Prevenir el menú contextual en táctil largo
+    recuadro.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+}
 
 function deleteRecuadro(recuadro) {
     const text = getBaseTrickName(recuadro.textContent);
@@ -1003,7 +970,6 @@ function hideHelpModal() {
 }
 
 // ========== INICIALIZACIÓN ==========
-// ========== INICIALIZACIÓN ==========
 function init() {
     // MENSAJE DE INFORMATIVO
     console.log('%cWelcome to TrickMap!', 'color: #257F69; font-size: 18px; font-weight: bold;');
@@ -1057,16 +1023,20 @@ function init() {
     elements.papelera.addEventListener('click', clearAll);
     elements.papelera.addEventListener('dragenter', () => elements.deleteMessage.style.display = 'block');
     elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
-    
-    // Event listeners táctiles para papelera
+    // Event listeners de la papelera (EXISTENTES - MANTENER)
+    elements.papelera.addEventListener('click', clearAll);
+    elements.papelera.addEventListener('dragenter', () => elements.deleteMessage.style.display = 'block');
+    elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
+
+    // === AÑADIR EVENTOS TÁCTILES PARA PAPELERA ===
     elements.papelera.addEventListener('touchstart', function() {
-        elements.deleteMessage.style.display = 'block';
-        this.style.transform = 'scale(1.1)';
+    elements.deleteMessage.style.display = 'block';
+    this.style.transform = 'scale(1.1)';
     }, { passive: true });
 
     elements.papelera.addEventListener('touchend', function() {
-        elements.deleteMessage.style.display = 'none';
-        this.style.transform = 'scale(1)';
+    elements.deleteMessage.style.display = 'none';
+    this.style.transform = 'scale(1)';
     }, { passive: true });
     
     // Event listeners del mouse
@@ -1098,138 +1068,6 @@ function init() {
         e.stopPropagation();
     });
     
-    // Event listener global de teclado
-    document.addEventListener('keydown', handleGlobalKeydown);
-    
-    // MODAL DE BIENVENIDA
-    (function initWelcomeModal() {
-        const welcomeModal = document.getElementById('welcome-modal');
-        if (!welcomeModal) return;
-        
-        const closeWelcomeBtn = document.getElementById('close-welcome-btn');
-
-        // Mostrar inmediatamente
-        welcomeModal.style.display = 'flex';
-
-        // Cerrar al hacer click en el botón
-        if (closeWelcomeBtn) {
-            closeWelcomeBtn.addEventListener('click', () => {
-                welcomeModal.style.display = 'none';
-            });
-        }
-
-        // Cerrar al hacer click fuera del contenido
-        welcomeModal.addEventListener('click', (e) => {
-            if (e.target === welcomeModal) {
-                welcomeModal.style.display = 'none';
-            }
-        });
-
-        // Cerrar con tecla Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && welcomeModal.style.display === 'flex') {
-                welcomeModal.style.display = 'none';
-            }
-        });
-    })(); // <-- IIFE - se ejecuta inmediatamente
-    
-    // === AÑADIR EVENTOS TÁCTILES GLOBALES ===
-    if (isTouchDevice) {
-        // Prevenir zoom con doble tap
-        document.addEventListener('touchstart', function(e) {
-            if (e.touches.length > 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        // Prevenir scroll cuando se está arrastrando
-        document.addEventListener('touchmove', function(e) {
-            if (isDragging) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        // Buscador con doble tap
-        let lastTapTime = 0;
-        let tapCount = 0;
-        
-        elements.search.addEventListener('touchstart', function(e) {
-            const currentTime = new Date().getTime();
-            
-            if (currentTime - lastTapTime < 300) {
-                tapCount++;
-                if (tapCount === 2) {
-                    // Doble tap detectado
-                    e.stopPropagation();
-                    mostrarElemento(elements.itemList);
-                    animarTransicionListas();
-                    this.focus();
-                    tapCount = 0;
-                }
-            } else {
-                tapCount = 1;
-            }
-            
-            lastTapTime = currentTime;
-            
-            // Timer para resetear
-            setTimeout(() => {
-                tapCount = 0;
-            }, 500);
-            
-            e.preventDefault();
-        }, { passive: false });
-    }
-    
-    // === AÑADIR CLASE CSS SEGÚN DISPOSITIVO ===
-    if (isTouchDevice) {
-        document.documentElement.classList.add('touch-device');
-        console.log('Modo táctil activado');
-    } else {
-        document.documentElement.classList.add('non-touch-device');
-    }
-    
-    console.log('Inicialización completada');
-}
-
-// Iniciar la aplicación
-init();
-
-// ========== FUNCIONES ADICIONALES ==========
-
-// Esta función debe estar definida - añádela si no existe
-function checkAndDeleteDraggedElement() {
-    if (!draggedElement) return;
-    
-    const trashBox = elements.papelera.getBoundingClientRect();
-    const elementBox = draggedElement.getBoundingClientRect();
-    
-    const margin = isTouchDevice ? 50 : 30;
-    const isOverTrash = 
-        elementBox.right - margin > trashBox.left &&
-        elementBox.left + margin < trashBox.right &&
-        elementBox.bottom - margin > trashBox.top &&
-        elementBox.top + margin < trashBox.bottom;
-    
-    if (isOverTrash) {
-        elements.papelera.classList.add('active');
-        elements.deleteMessage.textContent = '¡ELIMINANDO...!';
-        
-        setTimeout(() => {
-            if (draggedElement && document.body.contains(draggedElement)) {
-                deleteRecuadro(draggedElement);
-            }
-            
-            setTimeout(() => {
-                elements.papelera.classList.remove('active');
-                elements.deleteMessage.textContent = 'Drop here to delete';
-            }, 300);
-        }, 200);
-    } else {
-        elements.papelera.classList.remove('active');
-        elements.deleteMessage.textContent = 'Drop here to delete';
-    }
-}
     // Event listener global de teclado
     document.addEventListener('keydown', handleGlobalKeydown);
     
@@ -1288,7 +1126,6 @@ function checkAndDeleteDraggedElement() {
                         this.focus();
                         e.preventDefault();
                     }, { passive: false });
-                }
                 // === AÑADIR CLASE CSS SEGÚN DISPOSITIVO ===
                     if (isTouchDevice) {
                         document.documentElement.classList.add('touch-device');
@@ -1296,6 +1133,7 @@ function checkAndDeleteDraggedElement() {
                     } else {
                         document.documentElement.classList.add('non-touch-device');
                     }
+                }
     
 
 
@@ -1362,60 +1200,17 @@ function handleMouseUp() {
     isDragging = false;
     elements.deleteMessage.style.display = 'none';
     
-    // Usar la función común para ambos (mouse y touch)
-    checkAndDeleteDraggedElement();
-}
-
-function checkAndDeleteDraggedElement() {
-    if (!draggedElement) return;
+    const papeleraRect = elements.papelera.getBoundingClientRect();
+    const draggedRect = draggedElement.getBoundingClientRect();
+    const margin = isTouchDevice ? 30 : 0;
+    const isOverTrash =
+    draggedRect.right > papeleraRect.left && 
+    draggedRect.left < papeleraRect.right &&
+    draggedRect.bottom > papeleraRect.top && 
+    draggedRect.top < papeleraRect.bottom;
     
-    // Usar nombres de variables únicos
-    const trashRect = elements.papelera.getBoundingClientRect(); // <-- Cambiado de papeleraRect
-    const elementRect = draggedElement.getBoundingClientRect();  // <-- Cambiado de draggedRect
-    
-    // Calcular si está sobre la papelera
-    const margin = isTouchDevice ? 50 : 30;
-    const isOverTrash = 
-        elementRect.right - margin > trashRect.left &&
-        elementRect.left + margin < trashRect.right &&
-        elementRect.bottom - margin > trashRect.top &&
-        elementRect.top + margin < trashRect.bottom;
-    
-    if (isOverTrash) {
-        // Feedback visual
-        elements.papelera.classList.add('active');
-        elements.deleteMessage.textContent = '¡ELIMINADO!';
-        elements.deleteMessage.style.color = '#ff0000';
-        
-        // Eliminar después de un breve delay para ver el feedback
-        setTimeout(() => {
-            if (draggedElement && document.body.contains(draggedElement)) {
-                deleteRecuadro(draggedElement);
-            }
-            
-            // Resetear estilos
-            setTimeout(() => {
-                elements.papelera.classList.remove('active');
-                elements.deleteMessage.textContent = 'Drop here to delete';
-                elements.deleteMessage.style.color = '';
-            }, 300);
-            
-        }, 150);
-    } else {
-        // Resetear estilos
-        elements.papelera.classList.remove('active');
-        elements.deleteMessage.textContent = 'Drop here to delete';
-        elements.deleteMessage.style.color = '';
-    }
-}
-
-function resetPapeleraStyles() {
-    elements.papelera.style.transform = 'scale(1)';
-    elements.papelera.style.backgroundColor = '';
-    elements.papelera.style.boxShadow = '';
-    elements.deleteMessage.textContent = 'Drop here to delete';
-    elements.deleteMessage.style.color = '';
-    elements.deleteMessage.style.fontWeight = '';
+    if (isOverTrash) deleteRecuadro(draggedElement);
+    draggedElement = null;
 }
 
 function clearAll() {
@@ -1502,22 +1297,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Iniciar la aplicación
 init();
-// ========== CIERRE DEL SCRIPT ==========
-
-// Función auxiliar si falta
-function resetPapeleraStyles() {
-    elements.papelera.style.transform = '';
-    elements.papelera.style.backgroundColor = '';
-    elements.papelera.style.boxShadow = '';
-    elements.deleteMessage.textContent = 'Drop here to delete';
-    elements.deleteMessage.style.color = '';
-    elements.deleteMessage.style.fontWeight = '';
-}
-
-// Debug final
-console.log('Script.js cargado completamente');
-
-// Si usas módulos, exporta lo necesario
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { init };
-}
