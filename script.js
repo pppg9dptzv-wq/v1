@@ -1,4 +1,6 @@
 const elements = {
+    toggleSearchBtn: document.getElementById('toggle-search-btn'),
+    searchPanel: document.getElementById('search-panel'),
     search: document.getElementById('search'),
     itemList: document.getElementById('item-list'),
     recuadrosContainer: document.getElementById('recuadros-container'),
@@ -21,7 +23,6 @@ const elements = {
     infoVideo: document.getElementById('info-video'),
     closeInfoBtn: document.getElementById('close-info-btn'),
     infoTrickBtn: document.getElementById('info-trick-btn'),
-    espaciadorLista: document.getElementById('espaciador-lista'),
     helpBtn: document.getElementById('help-btn'),
     helpModal: document.getElementById('help-modal'),
     closeHelpBtn: document.getElementById('close-help-btn'),
@@ -179,6 +180,64 @@ function ocultarElemento(elemento) {
     if (elemento === elements.itemList) {
         isSearchListVisible = false;
     }
+}
+
+function showSearchPanel() {
+    elements.searchPanel.style.display = 'flex';
+    requestAnimationFrame(() => {
+        elements.searchPanel.classList.add('mostrar');
+    });
+    mostrarElemento(elements.itemList);
+    elements.search.focus();
+}
+
+function hideSearchPanel() {
+    if (elements.searchPanel.classList.contains('mostrar')) {
+        elements.searchPanel.classList.remove('mostrar');
+        setTimeout(() => {
+            elements.searchPanel.style.display = 'none';
+        }, 300);
+    } else {
+        elements.searchPanel.style.display = 'none';
+    }
+    ocultarElemento(elements.itemList);
+    elements.search.blur();
+    animarTransicionListas();
+}
+
+function toggleSearchPanel() {
+    const visible = elements.searchPanel.style.display === 'flex' || elements.searchPanel.classList.contains('mostrar');
+    if (visible) hideSearchPanel();
+    else showSearchPanel();
+}
+
+function showSearchPanel() {
+    elements.searchPanel.style.display = 'flex';
+    requestAnimationFrame(() => {
+        elements.searchPanel.classList.add('mostrar');
+    });
+    mostrarElemento(elements.itemList);
+    elements.search.focus();
+}
+
+function hideSearchPanel() {
+    if (elements.searchPanel.classList.contains('mostrar')) {
+        elements.searchPanel.classList.remove('mostrar');
+        setTimeout(() => {
+            elements.searchPanel.style.display = 'none';
+        }, 300);
+    } else {
+        elements.searchPanel.style.display = 'none';
+    }
+    ocultarElemento(elements.itemList);
+    elements.search.blur();
+    animarTransicionListas();
+}
+
+function toggleSearchPanel() {
+    const visible = elements.searchPanel.style.display === 'flex' || elements.searchPanel.classList.contains('mostrar');
+    if (visible) hideSearchPanel();
+    else showSearchPanel();
 }
 
 function animarTransicionListas() {
@@ -983,8 +1042,17 @@ function init() {
     updateList();
     elements.infoTrickBtn.style.display = 'none';
     
-    // Event listeners del buscador
+    // Toggle del buscador (ahora es un botón)
+    elements.toggleSearchBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSearchPanel();
+    });
+
+    // Si el input recibe foco (móvil/tab), aseguramos que el panel esté abierto
     elements.search.addEventListener('focus', () => {
+        if (elements.searchPanel.style.display !== 'flex') {
+            showSearchPanel();
+        }
         mostrarElemento(elements.itemList);
         animarTransicionListas();
     });
@@ -997,16 +1065,14 @@ function init() {
     
     elements.search.addEventListener('keydown', handleSearchKeys);
     
-    // Cerrar lista al hacer click fuera
+    // Cerrar buscador/lista al hacer click fuera
     document.addEventListener('click', (e) => {
-        if (!elements.search.contains(e.target) && 
-            !elements.itemList.contains(e.target) &&
+        if (!elements.searchPanel.contains(e.target) &&
+            !elements.toggleSearchBtn.contains(e.target) &&
             !e.target.closest('.recuadro') &&
             !e.target.closest('.compat-section') &&
             !elements.helpBtn.contains(e.target)) {
-            ocultarElemento(elements.itemList);
-            elements.search.blur();
-            animarTransicionListas();
+            hideSearchPanel();
         }
     });
 
@@ -1279,10 +1345,8 @@ function handleGlobalKeydown(e) {
             hideHelpModal();
         } else if (elements.infoModal.style.display === 'flex') {
             hideTrickInfo();
-        } else if (isSearchListVisible) {
-            ocultarElemento(elements.itemList);
-            elements.search.blur();
-            animarTransicionListas();
+        } else if (elements.searchPanel && (elements.searchPanel.style.display === 'flex' || isSearchListVisible)) {
+            hideSearchPanel();
         } else if (elements.conexionMenu.style.display === 'flex') {
             hideConexionMenu();
         }
