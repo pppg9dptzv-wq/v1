@@ -68,6 +68,7 @@ body {
     box-sizing: border-box;
     padding-top: 80px; /* evita que los recuadros queden bajo los botones superiores */
     transition: padding 0.25s ease;
+    z-index: 1; /* asegura que los paneles/listas queden por encima */
 }
 
 .right-panel.search-open .recuadros-container {
@@ -92,6 +93,7 @@ body {
     color: black;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     animation: aparecerRecuadro 0.3s ease;
+    z-index: 2;
 }
 
 .papelera {
@@ -280,6 +282,7 @@ svg {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 0;
 }
 
 .connection-path {
