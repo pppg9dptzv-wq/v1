@@ -22,11 +22,19 @@ body {
     top: 20px;
     left: 20px;
     z-index: 1003;
-    background-color: #4CAF50;
+    background-color: #666666;
+    color: white;
+    padding: 12px 18px;
+    font-size: 16px;
+    min-width: 110px;
+    height: 44px;
+    border-radius: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .search-toggle-btn:hover {
-    background-color: #388E3C;
+    background-color: #555555;
 }
 
 .search-panel {
@@ -57,6 +65,19 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+    padding-top: 80px; /* evita que los recuadros queden bajo los botones superiores */
+    transition: padding 0.25s ease;
+}
+
+.right-panel.search-open .recuadros-container {
+    padding-left: 360px; /* deja espacio para el buscador abierto */
+}
+
+@media (max-width: 900px) {
+    .right-panel.search-open .recuadros-container {
+        padding-left: 0;
+    }
 }
 
 .recuadro {
@@ -511,6 +532,16 @@ svg {
 }
 
 .papelera:hover img {
+    filter: brightness(0) invert(1);
+}
+
+/* Misma animación cuando arrastras un recuadro encima */
+.papelera.drag-over {
+    transform: scale(1.1);
+    background-color: #ff4444;
+}
+
+.papelera.drag-over img {
     filter: brightness(0) invert(1);
 }
 
