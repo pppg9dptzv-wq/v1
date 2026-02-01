@@ -309,7 +309,7 @@ function crearListaConGrupos() {
                 addRecuadro(trick);
                 elements.search.value = '';
                 updateList();
-                elements.search.focus();
+                elements.search.blur();
             });
             li.addEventListener('mouseenter', () => {
                 if (!li.classList.contains('highlighted')) {
@@ -1314,7 +1314,7 @@ function handleSearchKeys(e) {
                 addRecuadro(selectedItem.textContent);
                 elements.search.value = '';
                 updateList();
-                elements.search.focus();
+                elements.search.blur();
             }
         }
     }
