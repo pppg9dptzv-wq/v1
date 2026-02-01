@@ -1,4 +1,5 @@
-const elements = {
+    const elements = {
+    rightPanel: document.querySelector('.right-panel'),
     toggleSearchBtn: document.getElementById('toggle-search-btn'),
     searchPanel: document.getElementById('search-panel'),
     search: document.getElementById('search'),
@@ -159,6 +160,33 @@ function isDarkColor(hex) {
     return (0.299 * r + 0.587 * g + 0.114 * b) < 128;
 }
 
+// ====== SAFE AREA (para que los recuadros no queden debajo del botón/panel de search) ======
+function getSafeArea() {
+    // Debe coincidir con el padding-top de .recuadros-container (80px)
+    const safeTop = 80;
+
+    // Cuando el buscador está abierto en escritorio, reservamos el lateral izquierdo
+    const isNarrow = window.matchMedia('(max-width: 900px)').matches;
+    const safeLeft = (!isNarrow && elements.rightPanel && elements.rightPanel.classList.contains('search-open')) ? 360 : 0;
+
+    return { safeTop, safeLeft };
+}
+
+function enforceSafeArea() {
+    const { safeTop, safeLeft } = getSafeArea();
+    const recuadros = elements.recuadrosContainer.querySelectorAll('.recuadro');
+
+    recuadros.forEach(el => {
+        const left = parseFloat(el.style.left) || 0;
+        const top = parseFloat(el.style.top) || 0;
+
+        if (left < safeLeft) el.style.left = safeLeft + 'px';
+        if (top < safeTop) el.style.top = safeTop + 'px';
+    });
+
+    updateConnections();
+}
+
 // ========== FUNCIONES DE ANIMACIÓN ==========
 function mostrarElemento(elemento) {
     elemento.style.display = elemento === elements.itemList ? 'block' : 'flex';
@@ -183,15 +211,22 @@ function ocultarElemento(elemento) {
 }
 
 function showSearchPanel() {
+    if (elements.rightPanel) elements.rightPanel.classList.add('search-open');
+
     elements.searchPanel.style.display = 'flex';
     requestAnimationFrame(() => {
         elements.searchPanel.classList.add('mostrar');
     });
     mostrarElemento(elements.itemList);
     elements.search.focus();
+
+    // Empujar recuadros fuera del área reservada (para que no queden debajo)
+    enforceSafeArea();
 }
 
 function hideSearchPanel() {
+    if (elements.rightPanel) elements.rightPanel.classList.remove('search-open');
+
     if (elements.searchPanel.classList.contains('mostrar')) {
         elements.searchPanel.classList.remove('mostrar');
         setTimeout(() => {
@@ -203,35 +238,9 @@ function hideSearchPanel() {
     ocultarElemento(elements.itemList);
     elements.search.blur();
     animarTransicionListas();
-}
 
-function toggleSearchPanel() {
-    const visible = elements.searchPanel.style.display === 'flex' || elements.searchPanel.classList.contains('mostrar');
-    if (visible) hideSearchPanel();
-    else showSearchPanel();
-}
-
-function showSearchPanel() {
-    elements.searchPanel.style.display = 'flex';
-    requestAnimationFrame(() => {
-        elements.searchPanel.classList.add('mostrar');
-    });
-    mostrarElemento(elements.itemList);
-    elements.search.focus();
-}
-
-function hideSearchPanel() {
-    if (elements.searchPanel.classList.contains('mostrar')) {
-        elements.searchPanel.classList.remove('mostrar');
-        setTimeout(() => {
-            elements.searchPanel.style.display = 'none';
-        }, 300);
-    } else {
-        elements.searchPanel.style.display = 'none';
-    }
-    ocultarElemento(elements.itemList);
-    elements.search.blur();
-    animarTransicionListas();
+    // Reaplicar límites (en móvil/resize puede cambiar el safeLeft)
+    enforceSafeArea();
 }
 
 function toggleSearchPanel() {
@@ -241,6 +250,9 @@ function toggleSearchPanel() {
 }
 
 function animarTransicionListas() {
+    // Ya no usamos el espaciador del panel izquierdo; evitar errores si no existe
+    if (!elements.espaciadorLista) return;
+
     if (isSearchListVisible && elements.compatSection.style.display === 'flex') {
         elements.espaciadorLista.style.height = '10px';
     } else if (isSearchListVisible) {
@@ -397,17 +409,19 @@ function positionRecuadro(recuadro) {
     recuadro.style.position = 'absolute';
     recuadro.style.opacity = '0';
     recuadro.style.transform = 'scale(0.8)';
-    
+
+    const { safeTop, safeLeft } = getSafeArea();
+
     const existingRecuadros = Array.from(elements.recuadrosContainer.querySelectorAll('.recuadro'));
     const padding = 20, margin = 15;
-    
+
     if (existingRecuadros.length === 0) {
-        recuadro.style.left = padding + 'px';
-        recuadro.style.top = padding + 'px';
+        recuadro.style.left = (safeLeft + padding) + 'px';
+        recuadro.style.top = (safeTop + padding) + 'px';
         return;
     }
-    
-    let maxRight = padding, currentRowBottom = padding, currentRowHeight = 0;
+
+    let maxRight = safeLeft + padding, currentRowBottom = safeTop + padding, currentRowHeight = 0;
     
     existingRecuadros.forEach(existing => {
         const rect = existing.getBoundingClientRect();
@@ -441,7 +455,11 @@ function positionRecuadro(recuadro) {
     if (newTop + recuadro.offsetHeight > containerRect.height - padding) {
         newTop = padding;
     }
-    
+
+    // Aplicar safe-area final (usa safeTop/safeLeft calculados arriba)
+    newLeft = Math.max(safeLeft, newLeft);
+    newTop = Math.max(safeTop, newTop);
+
     recuadro.style.left = newLeft + 'px';
     recuadro.style.top = newTop + 'px';
 }
@@ -501,11 +519,15 @@ function setupRecuadroEvents(recuadro) {
                 let newLeft = touch.clientX - containerRect.left - offsetX;
                 let newTop = touch.clientY - containerRect.top - offsetY;
                 
-                newLeft = Math.max(0, Math.min(newLeft, containerRect.width - recuadro.offsetWidth));
-                newTop = Math.max(0, Math.min(newTop, containerRect.height - recuadro.offsetHeight));
-                
+                const safeArea = getSafeArea();
+
+                newLeft = Math.max(safeArea.safeLeft, Math.min(newLeft, containerRect.width - recuadro.offsetWidth));
+                newTop = Math.max(safeArea.safeTop, Math.min(newTop, containerRect.height - recuadro.offsetHeight));
+
                 recuadro.style.left = newLeft + 'px';
                 recuadro.style.top = newTop + 'px';
+
+                setTrashDragOver(isElementOverTrash(recuadro));
                 updateConnections();
             }
             
@@ -524,6 +546,8 @@ function setupRecuadroEvents(recuadro) {
         isDragging = false;
         draggedElement = null;
         isTap = false;
+
+        setTrashDragOver(false);
     }, { passive: false });
     
     // Prevenir el menú contextual en táctil largo
@@ -1048,6 +1072,13 @@ function init() {
         toggleSearchPanel();
     });
 
+    // Soporte táctil (en algunos móviles el click no dispara como esperas)
+    elements.toggleSearchBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleSearchPanel();
+    }, { passive: false });
+
     // Si el input recibe foco (móvil/tab), aseguramos que el panel esté abierto
     elements.search.addEventListener('focus', () => {
         if (elements.searchPanel.style.display !== 'flex') {
@@ -1067,12 +1098,20 @@ function init() {
     
     // Cerrar buscador/lista al hacer click fuera
     document.addEventListener('click', (e) => {
+        const clickedRecuadro = !!e.target.closest('.recuadro');
+        const clickedCompat = !!e.target.closest('.compat-section');
+
         if (!elements.searchPanel.contains(e.target) &&
             !elements.toggleSearchBtn.contains(e.target) &&
-            !e.target.closest('.recuadro') &&
-            !e.target.closest('.compat-section') &&
+            !clickedRecuadro &&
+            !clickedCompat &&
             !elements.helpBtn.contains(e.target)) {
             hideSearchPanel();
+        }
+
+        // Cerrar compatibles al hacer click fuera (pero no si haces click en un recuadro)
+        if (!clickedCompat && !clickedRecuadro && elements.compatSection.style.display === 'flex') {
+            hideCompatibles();
         }
     });
 
@@ -1142,36 +1181,39 @@ function init() {
     document.addEventListener('keydown', handleGlobalKeydown);
     
     // MODAL DE BIENVENIDA - COMENTAR PARA DESACTIVAR
-            function initWelcomeModal() {
-                const welcomeModal = document.getElementById('welcome-modal');
-                const closeWelcomeBtn = document.getElementById('close-welcome-btn');
-    
-                // Mostrar inmediatamente
-                welcomeModal.style.display = 'flex';
-    
-                // Cerrar al hacer click en el botón
-                closeWelcomeBtn.addEventListener('click', () => {
-                    welcomeModal.style.display = 'none';
-                });
-    
-                // Cerrar al hacer click fuera del contenido
-                welcomeModal.addEventListener('click', (e) => {
-                    if (e.target === welcomeModal) {
-                        welcomeModal.style.display = 'none';
-                    }
-                });
-    
-                // Cerrar con tecla Escape
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && welcomeModal.style.display === 'flex') {
-                        welcomeModal.style.display = 'none';
-                    }
-                });
-            }
+    function initWelcomeModal() {
+        const welcomeModal = document.getElementById('welcome-modal');
+        const closeWelcomeBtn = document.getElementById('close-welcome-btn');
 
-                    // LLAMAR ESTA FUNCIÓN - COMENTAR PARA DESACTIVAR EL MODAL
-                    initWelcomeModal();
-                    }
+        // Si no existe el modal en el HTML, no hacemos nada (evita que se rompa init())
+        if (!welcomeModal || !closeWelcomeBtn) return;
+
+        // Mostrar inmediatamente
+        welcomeModal.style.display = 'flex';
+
+        // Cerrar al hacer click en el botón
+        closeWelcomeBtn.addEventListener('click', () => {
+            welcomeModal.style.display = 'none';
+        });
+
+        // Cerrar al hacer click fuera del contenido
+        welcomeModal.addEventListener('click', (e) => {
+            if (e.target === welcomeModal) {
+                welcomeModal.style.display = 'none';
+            }
+        });
+
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && welcomeModal.style.display === 'flex') {
+                welcomeModal.style.display = 'none';
+            }
+        });
+    }
+
+    // LLAMAR ESTA FUNCIÓN - COMENTAR PARA DESACTIVAR EL MODAL
+    initWelcomeModal();
+}
                 // === AÑADIR EVENTOS TÁCTILES GLOBALES ===
                 if (isTouchDevice) {
                     // Prevenir zoom con doble tap
@@ -1250,37 +1292,56 @@ function handleSearchKeys(e) {
     }
 }
 
+function setTrashDragOver(isOver) {
+    if (!elements.papelera) return;
+
+    elements.papelera.classList.toggle('drag-over', isOver);
+    elements.deleteMessage.style.display = isOver ? 'block' : 'none';
+}
+
+function isElementOverTrash(el) {
+    if (!el || !elements.papelera) return false;
+
+    const papeleraRect = elements.papelera.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+
+    return (
+        elRect.right > papeleraRect.left &&
+        elRect.left < papeleraRect.right &&
+        elRect.bottom > papeleraRect.top &&
+        elRect.top < papeleraRect.bottom
+    );
+}
+
 function handleMouseMove(e) {
     if (!isDragging || !draggedElement) return;
-    
+
+    const { safeTop, safeLeft } = getSafeArea();
+
     const containerRect = elements.recuadrosContainer.getBoundingClientRect();
     let newLeft = e.clientX - containerRect.left - offsetX;
     let newTop = e.clientY - containerRect.top - offsetY;
-    newLeft = Math.max(0, Math.min(newLeft, containerRect.width - draggedElement.offsetWidth));
-    newTop = Math.max(0, Math.min(newTop, containerRect.height - draggedElement.offsetHeight));
-    
+
+    newLeft = Math.max(safeLeft, Math.min(newLeft, containerRect.width - draggedElement.offsetWidth));
+    newTop = Math.max(safeTop, Math.min(newTop, containerRect.height - draggedElement.offsetHeight));
+
     draggedElement.style.left = newLeft + 'px';
     draggedElement.style.top = newTop + 'px';
+
+    setTrashDragOver(isElementOverTrash(draggedElement));
     updateConnections();
 }
 
 function handleMouseUp() {
     if (!isDragging || !draggedElement) return;
-    
+
     isDragging = false;
-    elements.deleteMessage.style.display = 'none';
-    
-    const papeleraRect = elements.papelera.getBoundingClientRect();
-    const draggedRect = draggedElement.getBoundingClientRect();
-    const margin = isTouchDevice ? 30 : 0;
-    const isOverTrash =
-    draggedRect.right > papeleraRect.left && 
-    draggedRect.left < papeleraRect.right &&
-    draggedRect.bottom > papeleraRect.top && 
-    draggedRect.top < papeleraRect.bottom;
-    
+
+    const isOverTrash = isElementOverTrash(draggedElement);
     if (isOverTrash) deleteRecuadro(draggedElement);
+
     draggedElement = null;
+    setTrashDragOver(false);
 }
 
 function clearAll() {
@@ -1359,9 +1420,16 @@ function scrollToContent() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('Page loaded successfully');
+// Debug: mostrar errores JS en consola
+window.addEventListener('error', (e) => {
+  console.error('JS error:', e.error || e.message);
 });
 
-// Iniciar la aplicación
-init();
+// Iniciar la aplicación cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    init();
+  } catch (err) {
+    console.error('Init failed:', err);
+  }
+});
