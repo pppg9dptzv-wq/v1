@@ -1,35 +1,31 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrickMap</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/logos/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/logos/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/logos/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#8a2be2">
-    <meta name="msapplication-TileColor" content="#8a2be2">
-    <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="profilepicture.jpeg" type="image/jpeg"></head>
 <body>
-    <div class="left-panel">
-        <h2>Search and Map your Tricks</h2>
-        <button id="help-btn">Learn more</button>
-        <input type="text" id="search" placeholder="click and search">
-        <ul id="item-list"></ul>
-        <div class="espaciador-lista" id="espaciador-lista"></div>
+    <div class="right-panel">
+        <button id="toggle-search-btn" class="search-toggle-btn">search</button>
+        <button id="help-btn">What is this?</button>
+
+        <div class="search-panel" id="search-panel">
+            <h2>Search your tricks</h2>
+            <input type="text" id="search" placeholder="click and search">
+            <ul id="item-list"></ul>
+        </div>
+
         <div class="compat-section" id="compat-section">
             <h3>
                 <span id="current-trick">combine</span>
                 <button id="info-trick-btn">info</button>
-                <button id="delete-connection">delete all</button>
+                <button id="delete-connection">delete connections</button>
             </h3>
             <ul id="compat-list"></ul>
         </div>
-    </div>
-    
-    <div class="right-panel">
+
         <div class="recuadros-container" id="recuadros-container">
             <svg id="connections-svg"></svg>
         </div>
@@ -78,7 +74,7 @@
                 <p>This interactive tool helps you visualize and plan combos for your next competition, or just for fun</p>
                 <p><strong>How to use:</strong></p>
                 <ul>
-                    <li>Search and add tricks from the left panel</li>
+                    <li>Open the search button to find and add tricks</li>
                     <li>Click on any trick to see compatible combinations</li>
                     <li>Drag and drop tricks to organize your workspace</li>
                     <li>Create connections and transitions between tricks</li>
@@ -86,26 +82,16 @@
                     <li>Drag tricks to the trash icon to delete them</li>
                     <li>Click the trash to clear everything</li>
                 </ul>
-                <p>Hope you enjoyed using this experimental tool, check out our social networks👇</p>
+                <p>Hope you enjoyed using this experimental tool, for more info of the full project checkout our socials👇</p>
             </div>
             <div class="help-actions">
                 <a href="https://linktr.ee/trickmap.fc" target="_blank" class="help-link-btn" id="external-link-btn">
-                    Socials
+                    Learn More
                 </a>
             </div>
         </div>
     </div>
-    <div class="welcome-modal" id="welcome-modal">
-    <div class="welcome-content">
-        <h3>Welcome to TrickMap</h3>
-        <p>Newest changes:</p>
-        <ul>
-            <li>✅We added more tricks</li>
-            <li>✅We are open for suggestions</li>
-            <li>⚠️At the moment we don't work properly on phones</li>
-        </ul>
-            <button id="close-welcome-btn">Got it, let's start!</button>
-    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
