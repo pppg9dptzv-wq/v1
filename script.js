@@ -162,12 +162,29 @@ function isDarkColor(hex) {
 
 // ====== SAFE AREA (para que los recuadros no queden debajo del botón/panel de search) ======
 function getSafeArea() {
-    // Debe coincidir con el padding-top de .recuadros-container (80px)
-    const safeTop = 80;
+    // Base: evita que los recuadros queden bajo los botones superiores
+    let safeTop = 80;
 
-    // Cuando el buscador está abierto en escritorio, reservamos el lateral izquierdo
     const isNarrow = window.matchMedia('(max-width: 900px)').matches;
+
+    // En escritorio, cuando el buscador está abierto, reservamos el lateral izquierdo
     const safeLeft = (!isNarrow && elements.rightPanel && elements.rightPanel.classList.contains('search-open')) ? 360 : 0;
+
+    // En móvil: si hay paneles abiertos arriba, reservamos su altura para que no salgan recuadros por debajo
+    if (isNarrow && elements.recuadrosContainer) {
+        const containerRect = elements.recuadrosContainer.getBoundingClientRect();
+        const margin = 15;
+
+        const panels = [elements.searchPanel, elements.compatSection].filter(Boolean);
+        panels.forEach(panel => {
+            const isVisible = panel.style.display === 'flex' || panel.classList.contains('mostrar');
+            if (!isVisible) return;
+
+            const rect = panel.getBoundingClientRect();
+            const bottomRelativeToContainer = rect.bottom - containerRect.top;
+            safeTop = Math.max(safeTop, bottomRelativeToContainer + margin);
+        });
+    }
 
     return { safeTop, safeLeft };
 }
@@ -210,7 +227,7 @@ function ocultarElemento(elemento) {
     }
 }
 
-function showSearchPanel() {
+function showSearchPanel(focusSearch = true) {
     if (elements.rightPanel) elements.rightPanel.classList.add('search-open');
 
     elements.searchPanel.style.display = 'flex';
@@ -218,7 +235,13 @@ function showSearchPanel() {
         elements.searchPanel.classList.add('mostrar');
     });
     mostrarElemento(elements.itemList);
-    elements.search.focus();
+
+    // En móvil: al abrir desde el botón, NO abrimos teclado; el teclado solo al tocar el input
+    if (focusSearch) {
+        elements.search.focus();
+    } else {
+        elements.search.blur();
+    }
 
     // Empujar recuadros fuera del área reservada (para que no queden debajo)
     enforceSafeArea();
@@ -699,6 +722,9 @@ function showCompatibles(baseText) {
         requestAnimationFrame(() => {
             elements.compatSection.classList.add('mostrar');
         });
+
+        // En móvil, reservar altura del panel para que no aparezcan recuadros “debajo”
+        enforceSafeArea();
     }, 10);
     
     const hasConnections = currentConnections.length > 0;
@@ -711,6 +737,9 @@ function hideCompatibles() {
         setTimeout(() => {
             elements.compatSection.style.display = 'none';
             animarTransicionListas();
+
+            // Reaplicar límites cuando desaparece el panel
+            enforceSafeArea();
         }, 300);
     }
 }
@@ -1067,16 +1096,21 @@ function init() {
     elements.infoTrickBtn.style.display = 'none';
     
     // Toggle del buscador (ahora es un botón)
+    // En móvil: al pulsar el botón solo mostramos el panel/lista, sin abrir teclado.
     elements.toggleSearchBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleSearchPanel();
+        const visible = elements.searchPanel.style.display === 'flex' || elements.searchPanel.classList.contains('mostrar');
+        if (visible) hideSearchPanel();
+        else showSearchPanel(false);
     });
 
     // Soporte táctil (en algunos móviles el click no dispara como esperas)
     elements.toggleSearchBtn.addEventListener('touchstart', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        toggleSearchPanel();
+        const visible = elements.searchPanel.style.display === 'flex' || elements.searchPanel.classList.contains('mostrar');
+        if (visible) hideSearchPanel();
+        else showSearchPanel(false);
     }, { passive: false });
 
     // Si el input recibe foco (móvil/tab), aseguramos que el panel esté abierto
@@ -1231,13 +1265,7 @@ function init() {
                     }, { passive: false });
         
                     // Mejorar el buscador para táctil
-                    elements.search.addEventListener('touchstart', function(e) {
-                        e.stopPropagation();
-                        mostrarElemento(elements.itemList);
-                       animarTransicionListas();
-                        this.focus();
-                        e.preventDefault();
-                    }, { passive: false });
+                    // (dejamos el comportamiento nativo: al tocar el input se activa y abre teclado)
                 // === AÑADIR CLASE CSS SEGÚN DISPOSITIVO ===
                     if (isTouchDevice) {
                         document.documentElement.classList.add('touch-device');
