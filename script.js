@@ -1172,15 +1172,19 @@ function init() {
     elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
 
     // === AÑADIR EVENTOS TÁCTILES PARA PAPELERA ===
-    elements.papelera.addEventListener('touchstart', function() {
+    elements.papelera.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
     elements.deleteMessage.style.display = 'block';
     this.style.transform = 'scale(1.1)';
     }, { passive: true });
 
-    elements.papelera.addEventListener('touchend', function() {
+    elements.papelera.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
     elements.deleteMessage.style.display = 'none';
     this.style.transform = 'scale(1)';
-    }, { passive: true });
+        clearAll();
+    }, { passive: false });
     
     // Event listeners del mouse
     document.addEventListener('mousemove', handleMouseMove);
