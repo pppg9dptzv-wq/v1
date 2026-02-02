@@ -1,4 +1,4 @@
-    const elements = {
+const elements = {
     rightPanel: document.querySelector('.right-panel'),
     toggleSearchBtn: document.getElementById('toggle-search-btn'),
     searchPanel: document.getElementById('search-panel'),
@@ -309,6 +309,7 @@ function crearListaConGrupos() {
                 addRecuadro(trick);
                 elements.search.value = '';
                 updateList();
+                // En móvil: al elegir un truco de la lista, NO abrir teclado
                 elements.search.blur();
             });
             li.addEventListener('mouseenter', () => {
@@ -1172,17 +1173,18 @@ function init() {
     elements.papelera.addEventListener('dragleave', () => elements.deleteMessage.style.display = 'none');
 
     // === AÑADIR EVENTOS TÁCTILES PARA PAPELERA ===
+    // En algunos móviles el click no se dispara de forma consistente; usamos touchend para ejecutar clearAll().
     elements.papelera.addEventListener('touchstart', function(e) {
         e.stopPropagation();
-    elements.deleteMessage.style.display = 'block';
-    this.style.transform = 'scale(1.1)';
+        elements.deleteMessage.style.display = 'block';
+        this.style.transform = 'scale(1.1)';
     }, { passive: true });
 
     elements.papelera.addEventListener('touchend', function(e) {
         e.preventDefault();
         e.stopPropagation();
-    elements.deleteMessage.style.display = 'none';
-    this.style.transform = 'scale(1)';
+        elements.deleteMessage.style.display = 'none';
+        this.style.transform = 'scale(1)';
         clearAll();
     }, { passive: false });
     
@@ -1318,6 +1320,7 @@ function handleSearchKeys(e) {
                 addRecuadro(selectedItem.textContent);
                 elements.search.value = '';
                 updateList();
+                // Evitar abrir teclado al seleccionar desde la lista
                 elements.search.blur();
             }
         }
