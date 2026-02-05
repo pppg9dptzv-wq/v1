@@ -1,8 +1,18 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* Replace your current body/right-panel height rules */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  height: 100dvh; /* better on mobile browser UI */
 }
 
 .left-panel {
@@ -10,11 +20,10 @@ body {
 }
 
 .right-panel {
-    height: 100vh;
-    padding: 20px;
-    background-color: #fff;
-    position: relative;
-    overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  padding: 20px;
+  box-sizing: border-box; /* ensures padding doesn't add extra height */
 }
 
 .search-toggle-btn {
@@ -110,6 +119,8 @@ body {
     justify-content: center;
     transition: all 0.3s ease;
     cursor: pointer;
+    z-index: 1005;
+    bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
 .papelera img {
