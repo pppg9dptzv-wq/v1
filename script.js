@@ -245,8 +245,6 @@ function showSearchPanel(focusSearch = true) {
         elements.search.blur();
     }
 
-    // Reaplicar límites verticales de seguridad
-    enforceSafeArea();
 }
 
 function hideSearchPanel() {
@@ -264,8 +262,6 @@ function hideSearchPanel() {
     elements.search.blur();
     animarTransicionListas();
 
-    // Reaplicar límites de seguridad (por ejemplo en móvil/resize)
-    enforceSafeArea();
 }
 
 function toggleSearchPanel() {
@@ -726,8 +722,6 @@ function showCompatibles(baseText) {
             elements.compatSection.classList.add('mostrar');
         });
 
-        // En móvil, reservar altura del panel para que no aparezcan recuadros “debajo”
-        enforceSafeArea();
     }, 10);
     
     const hasConnections = currentConnections.length > 0;
@@ -741,8 +735,6 @@ function hideCompatibles() {
             elements.compatSection.style.display = 'none';
             animarTransicionListas();
 
-            // Reaplicar límites cuando desaparece el panel
-            enforceSafeArea();
         }, 300);
     }
 }
