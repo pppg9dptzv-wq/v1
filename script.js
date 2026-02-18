@@ -33,41 +33,41 @@ const elements = {
 
 const tricksByCategory = {
     'tricks': ['360', '540', 'geinger', 'frisbee', 'muscle-up', 'giant swing', 'laizans', 'shrimp flip', 'barspin', '180'],
-    'super tricks': ['frontflip', 'menendes',  '720', '900', 'oa frontflip', 'delchev', 'menendes', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', '1080', '1260'],
+    'super tricks': ['frontflip', '720', '900', 'oa frontflip', 'delchev', 'menendes', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', '1080', '1260'],
     'flyaways': ['back', 'front', 'front full', 'double back', 'back full', 'back double full'],
     'power moves': ['planche', 'front lever', 'back lever', 'hefesto']
 };
         
-const originalItems = ['muscle-up', 'planche', 'front lever', 'back lever', 'hefesto', 'barspin', '360', '180', '540', 'laizans', 'back', 'shrimp flip', 'giant swing', 'frontflip', 'oa frontflip', 'delchev', 'geinger', 'frisbee', 'front', 'front full', 'double back', 'back double full', 'menendes',  '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?'];
+const originalItems = ['muscle-up', 'planche', 'front lever', 'back lever', 'hefesto', 'barspin', '360', '180', '540', 'laizans', 'back', 'shrimp flip', 'giant swing', 'frontflip', 'oa frontflip', 'delchev', 'geinger', 'frisbee', 'front', 'front full', 'double back', 'back double full', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?'];
         
     const compatibilities = {
-    'muscle-up': ['barspin', 'planche', 'hefesto', '360', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '180': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '360': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '540': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '720': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '900': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '1080': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    '1260': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'barspin': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'laizans': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'shrimp flip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'giant swing': ['front lever', 'back lever', 'planche', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'menendes': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'oa frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'delchev': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'frisbee': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'geinger': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'front lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'back lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'planche': ['front lever', 'back lever', 'hefesto', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'hefesto': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 360': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 540': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 720': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 900': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
-    'king 1260?': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes',  '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'muscle-up': ['barspin', 'planche', 'hefesto', '360', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '180': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '360': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '540': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '720': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '900': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '1080': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    '1260': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'barspin': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'laizans': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'shrimp flip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'giant swing': ['front lever', 'back lever', 'planche', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'menendes': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'oa frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'frontflip': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'delchev': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'frisbee': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'geinger': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'front lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'back lever': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'planche': ['front lever', 'back lever', 'hefesto', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'hefesto': ['front lever', 'back lever', 'muscle-up', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 360': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 540': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 720': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 900': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
+    'king 1260?': ['front lever', 'back lever', 'laizans', '180', '360', 'shrimp flip', '540', 'geinger', 'frisbee', 'giant swing', 'delchev', 'frontflip', 'oa frontflip', 'menendes', '720', '900', '1080', '1260', 'king 360', 'king 540', 'king 720', 'king 900', 'king 1260?', 'back', 'back full', 'front', 'front full', 'double back', 'back double full'],
     'double back': [],
     'back double full': [],
     'back': [],
@@ -565,6 +565,9 @@ function setupRecuadroEvents(recuadro) {
             e.preventDefault();
             currentRecuadro = recuadro;
             showCompatibles(getBaseTrickName(currentRecuadro.textContent));
+        } else if (isElementOverTrash(recuadro)) {
+            // En táctil, al soltar sobre la papelera, eliminar y refrescar estado
+            deleteRecuadro(recuadro);
         }
         
         isDragging = false;
@@ -589,16 +592,39 @@ function deleteRecuadro(recuadro) {
     }
     
     const recuadroId = recuadro.id;
-    
-    delete activeConnections[recuadroId];
+    const affectedFromIds = new Set();
+
+    // Elimina salidas del recuadro borrado
+    if (activeConnections[recuadroId]) {
+        delete activeConnections[recuadroId];
+    }
+
+    // Elimina entradas hacia el recuadro borrado desde otros recuadros
+    Object.entries(activeConnections).forEach(([fromId, targetIds]) => {
+        const filtered = targetIds.filter(id => id !== recuadroId);
+        if (filtered.length !== targetIds.length) {
+            affectedFromIds.add(fromId);
+        }
+
+        if (filtered.length === 0) {
+            delete activeConnections[fromId];
+        } else {
+            activeConnections[fromId] = filtered;
+        }
+    });
+
+    // Limpia conexiones guardadas (normal/transicion) donde participa el recuadro borrado
     Object.keys(allConnections).forEach(key => {
-        if (key.includes(recuadroId)) delete allConnections[key];
+        if (key.startsWith(`${recuadroId}-`) || key.endsWith(`-${recuadroId}`)) {
+            delete allConnections[key];
+        }
     });
     
     if (currentRecuadro && currentRecuadro.id === recuadroId) {
         hideCompatibles();
         currentRecuadro = null;
         elements.infoTrickBtn.style.display = 'none';
+        elements.deleteConnectionBtn.style.display = 'none';
     }
     
     if (currentConexion.fromId === recuadroId || currentConexion.toId === recuadroId) {
@@ -607,7 +633,13 @@ function deleteRecuadro(recuadro) {
     
     recuadro.remove();
     updateConnections();
-    updateSelectedCompatibles();
+
+    // Si sigue habiendo un recuadro seleccionado, refresca su lista y botón
+    if (currentRecuadro) {
+        updateSelectedCompatibles();
+    } else if (affectedFromIds.size > 0) {
+        elements.deleteConnectionBtn.style.display = 'none';
+    }
 }
 
 // ========== FUNCIONES DE COMPATIBILIDAD ==========
@@ -807,42 +839,128 @@ function updateConnections() {
     }
 }
 
+function getSideVector(side) {
+    switch (side) {
+        case 'top': return { x: 0, y: -1 };
+        case 'right': return { x: 1, y: 0 };
+        case 'bottom': return { x: 0, y: 1 };
+        case 'left': return { x: -1, y: 0 };
+        default: return { x: 0, y: 0 };
+    }
+}
+
+function getSidePenalty(side, vx, vy) {
+    const badDirectionPenalty = 6000;
+
+    switch (side) {
+        case 'right':
+            return vx >= 0 ? 0 : badDirectionPenalty + Math.abs(vx) * 20;
+        case 'left':
+            return vx <= 0 ? 0 : badDirectionPenalty + Math.abs(vx) * 20;
+        case 'bottom':
+            return vy >= 0 ? 0 : badDirectionPenalty + Math.abs(vy) * 20;
+        case 'top':
+            return vy <= 0 ? 0 : badDirectionPenalty + Math.abs(vy) * 20;
+        default:
+            return 0;
+    }
+}
+
+function getRectAnchorData(rect, containerRect) {
+    const offset = 3;
+    const left = rect.left - containerRect.left;
+    const right = rect.right - containerRect.left;
+    const top = rect.top - containerRect.top;
+    const bottom = rect.bottom - containerRect.top;
+    const centerX = (left + right) / 2;
+    const centerY = (top + bottom) / 2;
+
+    return {
+        centerX,
+        centerY,
+        anchors: [
+            { side: 'top', x: centerX, y: top - offset },
+            { side: 'right', x: right + offset, y: centerY },
+            { side: 'bottom', x: centerX, y: bottom + offset },
+            { side: 'left', x: left - offset, y: centerY }
+        ]
+    };
+}
+
+function chooseBestAnchors(fromRect, toRect, containerRect) {
+    const fromData = getRectAnchorData(fromRect, containerRect);
+    const toData = getRectAnchorData(toRect, containerRect);
+    let best = null;
+
+    fromData.anchors.forEach(start => {
+        toData.anchors.forEach(end => {
+            const dx = end.x - start.x;
+            const dy = end.y - start.y;
+            const distanceScore = dx * dx + dy * dy;
+
+            const fromPenalty = getSidePenalty(
+                start.side,
+                toData.centerX - start.x,
+                toData.centerY - start.y
+            );
+
+            const toPenalty = getSidePenalty(
+                end.side,
+                fromData.centerX - end.x,
+                fromData.centerY - end.y
+            );
+
+            const score = distanceScore + fromPenalty + toPenalty;
+
+            if (!best || score < best.score) {
+                best = { start, end, dx, dy, score };
+            }
+        });
+    });
+
+    return best;
+}
+
+function buildCurveGeometry(start, end) {
+    const startDir = getSideVector(start.side);
+    const endDir = getSideVector(end.side);
+    const distance = Math.hypot(end.x - start.x, end.y - start.y);
+    const handle = Math.max(30, Math.min(140, distance * 0.35));
+
+    const c1 = {
+        x: start.x + startDir.x * handle,
+        y: start.y + startDir.y * handle
+    };
+
+    const c2 = {
+        x: end.x + endDir.x * handle,
+        y: end.y + endDir.y * handle
+    };
+
+    const path = `M ${start.x} ${start.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${end.x} ${end.y}`;
+    const mid = cubicPointAt(0.5, start, c1, c2, end);
+
+    return { path, labelX: mid.x, labelY: mid.y, lineLength: distance };
+}
+
+function cubicPointAt(t, p0, p1, p2, p3) {
+    const mt = 1 - t;
+    const mt2 = mt * mt;
+    const t2 = t * t;
+
+    return {
+        x: (mt2 * mt * p0.x) + (3 * mt2 * t * p1.x) + (3 * mt * t2 * p2.x) + (t2 * t * p3.x),
+        y: (mt2 * mt * p0.y) + (3 * mt2 * t * p1.y) + (3 * mt * t2 * p2.y) + (t2 * t * p3.y)
+    };
+}
+
 function drawConnection(fromEl, toEl, targetId) {
     const fromRect = fromEl.getBoundingClientRect();
     const toRect = toEl.getBoundingClientRect();
     const containerRect = elements.recuadrosContainer.getBoundingClientRect();
-    
-    const x1 = fromRect.right - containerRect.left;
-    const y1 = fromRect.top + fromRect.height / 2 - containerRect.top;
-    const x2 = toRect.left - containerRect.left;
-    const y2 = toRect.top + toRect.height / 2 - containerRect.top;
-    
-    const dx = Math.abs(x2 - x1);
-    const dy = Math.abs(y2 - y1);
-    const startX = x1 + 3, startY = y1, endX = x2 - 3, endY = y2;
-    const radius = 15, goesRight = x2 > x1;
-    
-    let path = '', labelX, labelY;
-    
-    if (dx > 50 && dy > 50) {
-        const middleX = startX + (goesRight ? dx/2 : -dx/2);
-        labelX = middleX;
-        labelY = (startY + endY) / 2;
-        
-        if (goesRight) {
-            path = y2 > y1 ? 
-                `M ${startX} ${startY} L ${middleX - radius} ${startY} Q ${middleX} ${startY} ${middleX} ${startY + radius} L ${middleX} ${endY - radius} Q ${middleX} ${endY} ${middleX + radius} ${endY} L ${endX} ${endY}` :
-                `M ${startX} ${startY} L ${middleX - radius} ${startY} Q ${middleX} ${startY} ${middleX} ${startY - radius} L ${middleX} ${endY + radius} Q ${middleX} ${endY} ${middleX + radius} ${endY} L ${endX} ${endY}`;
-        } else {
-            path = y2 > y1 ?
-                `M ${startX} ${startY} L ${middleX + radius} ${startY} Q ${middleX} ${startY} ${middleX} ${startY + radius} L ${middleX} ${endY - radius} Q ${middleX} ${endY} ${middleX - radius} ${endY} L ${endX} ${endY}` :
-                `M ${startX} ${startY} L ${middleX + radius} ${startY} Q ${middleX} ${startY} ${middleX} ${startY - radius} L ${middleX} ${endY + radius} Q ${middleX} ${endY} ${middleX - radius} ${endY} L ${endX} ${endY}`;
-        }
-    } else {
-        labelX = (startX + endX) / 2;
-        labelY = (startY + endY) / 2;
-        path = `M ${startX} ${startY} L ${endX} ${endY}`;
-    }
+
+    const bestAnchors = chooseBestAnchors(fromRect, toRect, containerRect);
+    const { path, labelX, labelY, lineLength } = buildCurveGeometry(bestAnchors.start, bestAnchors.end);
     
     const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     pathEl.setAttribute('d', path);
@@ -856,7 +974,6 @@ function drawConnection(fromEl, toEl, targetId) {
         pathEl.classList.add('connection-path', 'transicion');
         
         if (connectionInfo.displayText && connectionInfo.displayText.trim() !== '') {
-            const lineLength = Math.sqrt(dx * dx + dy * dy);
             if (lineLength > 100) {
                 const label = document.createElement('div');
                 label.className = 'transicion-label';
