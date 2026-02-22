@@ -69,5 +69,14 @@
   </nav>
 
   <script src="script.js"></script>
+  
+    <script>
+    (function () {
+      var path = window.location.pathname;
+      if (!path.endsWith('.html')) return;
+      var cleanPath = path.replace(/\.html$/, '');
+      window.history.replaceState({}, '', cleanPath + window.location.search + window.location.hash);
+    })();
+    </script>
 </body>
 </html>
