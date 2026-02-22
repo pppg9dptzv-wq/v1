@@ -165,7 +165,7 @@ const UI_TEXT = {
         alreadyConnected: 'Ya conectado',
         clickToConnect: 'Click para conectar',
         noPossibleCombinations: 'sin combinaciones posibles',
-        mostUsed: 'most used',
+        mostUsed: 'más usados',
         modeConnection: 'conexion',
         modeTransition: 'transicion',
         switchToConnection: 'conexion',
