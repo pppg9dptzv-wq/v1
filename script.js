@@ -204,6 +204,7 @@ const TRICK_ALIASES = {
 
 const MOST_USED_LIMIT = 6;
 const STATS_STORAGE_KEY = 'trickmap_stats_v1';
+const CLIENT_ID_STORAGE_KEY = 'trickmap_client_id_v1';
 const GLOBAL_STATS_CONFIG = window.TRICKMAP_GLOBAL_STATS || {};
 const GLOBAL_STATS_ENABLED = Boolean(
     GLOBAL_STATS_CONFIG.enabled &&
@@ -262,6 +263,30 @@ function saveTrickStats() {
 }
 
 const trickStats = loadTrickStats();
+
+function createRandomClientId() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        return `tm-${window.crypto.randomUUID()}`;
+    }
+
+    return `tm-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function getOrCreateClientId() {
+    const fallbackId = createRandomClientId();
+
+    try {
+        const stored = localStorage.getItem(CLIENT_ID_STORAGE_KEY);
+        if (stored && stored.length >= 8) return stored;
+
+        localStorage.setItem(CLIENT_ID_STORAGE_KEY, fallbackId);
+        return fallbackId;
+    } catch {
+        return fallbackId;
+    }
+}
+
+const globalStatsClientId = getOrCreateClientId();
 
 function hasPendingGlobalIncrements() {
     return Object.values(pendingGlobalIncrements).some((entry) =>
@@ -324,7 +349,8 @@ async function flushGlobalIncrements() {
                 body: JSON.stringify({
                     p_trick: item.trick,
                     p_searches_inc: item.searches,
-                    p_uses_inc: item.uses
+                    p_uses_inc: item.uses,
+                    p_client_id: globalStatsClientId
                 })
             });
 
