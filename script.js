@@ -112,6 +112,12 @@ const trickInfo = {
     'king 900': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
     'king 1260?': { text: 'zone under construction: we need volunteers for the example videos, contact us :)', video: 'https://www.w3schools.com/html/mov_bbb.mp4' }
 };
+
+const DEFAULT_TRICK_INFO_TEXT = {
+    en: 'zone under construction: we need volunteers for the example videos, contact us :)',
+    es: 'zona en construccion: necesitamos voluntarios para los videos de ejemplo, contactanos :)'
+};
+
 // ========== ESTADO DE LA APLICACIÓN ==========
 const allConnections = {};
 const activeConnections = {};
@@ -153,6 +159,7 @@ const UI_TEXT = {
         combinePrefix: 'Combine ',
         alreadyConnected: 'Already connected',
         clickToConnect: 'Click to connect',
+        loopBlocked: 'Blocked by previous chain',
         noPossibleCombinations: 'no possible combinations',
         mostUsed: 'most used',
         modeConnection: 'connection',
@@ -164,8 +171,9 @@ const UI_TEXT = {
         combinePrefix: 'Combinar ',
         alreadyConnected: 'Ya conectado',
         clickToConnect: 'Click para conectar',
+        loopBlocked: 'Bloqueado por cadena previa',
         noPossibleCombinations: 'sin combinaciones posibles',
-        mostUsed: 'más usados',
+        mostUsed: 'mas usados',
         modeConnection: 'conexion',
         modeTransition: 'transicion',
         switchToConnection: 'conexion',
@@ -480,6 +488,33 @@ function getSearchTermsForTrick(baseName) {
     ].map(normalizeSearchTerm).filter(Boolean);
 }
 
+function getLocalizedTrickInfoText(info) {
+    if (!info || typeof info !== 'object') {
+        return DEFAULT_TRICK_INFO_TEXT[LANG] || DEFAULT_TRICK_INFO_TEXT.en;
+    }
+
+    const explicitLangText = LANG === 'es' ? info.text_es : info.text_en;
+    if (typeof explicitLangText === 'string' && explicitLangText.trim()) {
+        return explicitLangText.trim();
+    }
+
+    if (typeof info.text === 'string' && info.text.trim()) {
+        const rawText = info.text.trim();
+
+        // Si el texto es el placeholder en ingles, mostrarlo traducido en espanol.
+        if (
+            LANG === 'es' &&
+            normalizeSearchTerm(rawText) === normalizeSearchTerm(DEFAULT_TRICK_INFO_TEXT.en)
+        ) {
+            return DEFAULT_TRICK_INFO_TEXT.es;
+        }
+
+        return rawText;
+    }
+
+    return DEFAULT_TRICK_INFO_TEXT[LANG] || DEFAULT_TRICK_INFO_TEXT.en;
+}
+
 function recordTrickSearch(baseName) {
     const canonical = toCanonicalTrickName(baseName);
     if (!canonical) return;
@@ -539,6 +574,34 @@ function refreshTrickList() {
 function getBaseTrickName(trickText) {
     const cleanName = trickText.replace(/\s*\(\d+\)$/, '');
     return toCanonicalTrickName(cleanName);
+}
+
+function canReachNode(startId, targetId) {
+    if (!startId || !targetId) return false;
+    if (startId === targetId) return true;
+
+    const visited = new Set();
+    const stack = [startId];
+
+    while (stack.length > 0) {
+        const currentId = stack.pop();
+        if (!currentId || visited.has(currentId)) continue;
+        visited.add(currentId);
+
+        const nextIds = activeConnections[currentId] || [];
+        for (const nextId of nextIds) {
+            if (nextId === targetId) return true;
+            if (!visited.has(nextId)) stack.push(nextId);
+        }
+    }
+
+    return false;
+}
+
+function wouldCreateConnectionLoop(fromId, toId) {
+    if (!fromId || !toId) return true;
+    if (fromId === toId) return true;
+    return canReachNode(toId, fromId);
 }
 
 function isDarkColor(hex) {
@@ -1101,12 +1164,16 @@ function showCompatibles(baseText) {
     
             // VERIFICAR SI ESTÁ CONECTADO
             const isConnected = currentConnections.includes(item.id);
+            const isLoopBlocked = wouldCreateConnectionLoop(currentRecuadro.id, item.id);
+            const isUnavailable = isConnected || isLoopBlocked;
     
             if (isConnected) {
                 li.classList.add('opaca');
                 li.title = T.alreadyConnected;
-            } 
-            else {
+            } else if (isLoopBlocked) {
+                li.classList.add('opaca');
+                li.title = T.loopBlocked;
+            } else {
                 li.title = T.clickToConnect;
             }
                // === AÑADIR EVENTOS TÁCTILES ===
@@ -1137,7 +1204,7 @@ function showCompatibles(baseText) {
             });
                 
                 // Efectos hover solo para elementos no opacos
-                if (!isConnected) {
+                if (!isUnavailable) {
                     li.addEventListener('mouseenter', () => {
                         li.style.backgroundColor = 'var(--list-hover)';
                         li.style.transform = 'translateX(5px)';
@@ -1154,7 +1221,7 @@ function showCompatibles(baseText) {
                 
                 setTimeout(() => {
                     li.style.transition = 'opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease';
-                    li.style.opacity = isConnected ? '0.5' : '1';
+                    li.style.opacity = isUnavailable ? '0.5' : '1';
                     li.style.transform = 'translateX(0)';
                 }, 10);
             });
@@ -1210,6 +1277,11 @@ function selectCompatible(targetId, trickName) {
     if (activeConnections[recuadroId].includes(targetId)) {
         return;
     }
+
+    // Evitar ciclos: si target puede llegar al origen, bloquear conexion.
+    if (wouldCreateConnectionLoop(recuadroId, targetId)) {
+        return;
+    }
     
     // Agregar conexión
     activeConnections[recuadroId].push(targetId);
@@ -1218,26 +1290,7 @@ function selectCompatible(targetId, trickName) {
     
     // Actualizar visualización
     updateConnections();
-    
-    // Marcar SOLO el elemento específico usando data-rec-id
-    const listItems = Array.from(elements.compatList.children);
-    listItems.forEach(li => {
-        if (li.dataset.recId === targetId) {
-            li.classList.add('opaca');
-            li.classList.remove('compat-highlighted');
-            li.title = T.alreadyConnected;
-            li.style.opacity = '0.5';
-            
-            // Deshabilitar clicks futuros
-            li.onclick = null;
-            li.style.pointerEvents = 'none';
-            
-            console.log(`Elemento con ID ${targetId} marcado como conectado`);
-        }
-    });
-    
-    // Actualizar botón
-    elements.deleteConnectionBtn.style.display = activeConnections[recuadroId].length > 0 ? 'inline' : 'none';
+    updateSelectedCompatibles();
 }
 
 function updateSelectedCompatibles() {
@@ -1617,7 +1670,7 @@ function showTrickInfo() {
     const info = trickInfo[baseText];
     if (!info) return;
     
-    elements.trickInfo.textContent = info.text;
+    elements.trickInfo.textContent = getLocalizedTrickInfoText(info);
     elements.infoVideo.parentElement.classList.add('cargando');
     elements.infoVideo.src = info.video;
     
