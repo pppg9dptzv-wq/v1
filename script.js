@@ -114,8 +114,8 @@ const trickInfo = {
 };
 
 const DEFAULT_TRICK_INFO_TEXT = {
-    en: 'zone under construction: we need volunteers for the example videos, contact us :)',
-    es: 'zona en construccion: necesitamos voluntarios para los videos de ejemplo, contactanos :)'
+    en: 'zone under construction: need volunteers for the example videos, contact me :)',
+    es: 'zona en construcción: necesito voluntarios para los videos de ejemplo, contactame :)'
 };
 
 // ========== ESTADO DE LA APLICACIÓN ==========
