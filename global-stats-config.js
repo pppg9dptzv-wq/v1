@@ -1,13 +1,6 @@
 window.TRICKMAP_GLOBAL_STATS = {
-    // Cambia a true cuando completes la configuracion de Supabase.
-    enabled: false,
-
-    // Ejemplo: https://xxxxxx.supabase.co
-    url: '',
-
-    // Public anon key de Supabase (NO service_role).
-    anonKey: '',
-
-    // Cada cuanto refrescar el ranking global.
+    enabled: true,
+    url: 'https://txfiabkmxplgfskinmkn.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4ZmlhYmtteHBsZ2Zza2lubWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2OTAwNzAsImV4cCI6MjA4NzI2NjA3MH0.MEFPtHxBob6mGBoDBQZNK4aWtdCbLJQ0VHQshKCYtso',
     refreshMs: 30000
 };
