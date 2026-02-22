@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrickMap</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="profilepicture.jpeg" type="image/jpeg">
+</head>
+<body>
+    <div class="right-panel">
+        <button id="toggle-search-btn" class="search-toggle-btn">BUSCAR TRUCOS</button>
+        <button id="help-btn">CÓMO USAR?</button>
+
+        <div class="search-panel" id="search-panel">
+            <h2>Busca tus trucos favoritos</h2>
+            <input type="text" id="search" placeholder="pulsa para buscar">
+            <ul id="item-list"></ul>
+        </div>
+
+        <div class="compat-section" id="compat-section">
+            <h3>
+                <span id="current-trick">combinar</span>
+                <button id="info-trick-btn">info</button>
+                <button id="delete-connection">borrar todo</button>
+            </h3>
+            <ul id="compat-list"></ul>
+        </div>
+
+        <div class="recuadros-container" id="recuadros-container">
+            <svg id="connections-svg"></svg>
+        </div>
+        <div class="papelera" id="papelera" title="borrar todo">
+            <img src="https://img.icons8.com/ios/50/000000/trash.png" alt="Papelera">
+            <div id="delete-message">borrar</div>
+        </div>
+    </div>
+
+    <div class="conexion-menu" id="conexion-menu">
+        <h3><span id="conexion-mode-title">conexión</span>
+            <span>
+                <button class="transicion-btn" id="toggle-transicion-btn">transición</button>
+                <button id="delete-conexion-btn">borrar</button>
+            </span>
+        </h3>
+        <div class="conexion-content">
+            <textarea id="conexion-text" placeholder="nombra tu transicion" maxlength="20"></textarea>
+            <div class="char-counter" id="char-counter">0/20</div>
+            <div class="conexion-actions" id="conexion-actions">
+                <button class="save-conexion-btn" id="save-conexion-btn">guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-modal" id="info-modal">
+        <h3>Info del truco<button id="close-info-btn">⏎</button></h3>
+        <div class="info-content">
+            <div class="info-text" id="info-text"></div>
+            <div class="video-container">
+                <video class="info-video" id="info-video" controls>
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="help-overlay"></div>
+
+    <div class="help-modal" id="help-modal">
+        <h3>TrickMap para calistenia
+            <button id="close-help-btn">⏎</button>
+        </h3>
+        <div class="help-content">
+            <div class="help-text">
+                <p>Esta herramienta interactiva te ayuda a visualizar y planificar combos para tu próxima competición o solo por diversión.</p>
+                <p><strong>Como usar:</strong></p>
+                <ul>
+                    <li>Abre el buscador para encontrar y anadir trucos</li>
+                    <li>Haz click en un truco para ver combinaciones compatibles</li>
+                    <li>Arrastra y suelta trucos para ordenar tu espacio</li>
+                    <li>Crea conexiones y transiciones entre trucos</li>
+                    <li>Arrastra trucos a la papelera para eliminarlos</li>
+                    <li>Pulsa la papelera para borrar todo</li>
+                </ul>
+                <p>Si quieres saber mas sobre proyecto completo, revisa mis redes👇</p>
+            </div>
+            <div class="help-actions">
+                <a href="http://paracu.org" target="_blank" class="help-link-btn" id="external-link-btn">
+                    Saber m´ss
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="lang-switch" aria-label="Cambiar idioma">
+        <a class="lang-switch__link" href="demo.html" lang="en">🇬🇧 EN</a>
+        <a class="lang-switch__link lang-switch__link--active" href="demoespanol.html" lang="es" aria-current="page">🇪🇸 ES</a>
+    </nav>
+
+    <script src="global-stats-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
